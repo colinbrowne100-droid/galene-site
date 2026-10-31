@@ -105,7 +105,7 @@ table{border-collapse:collapse;width:100%;font-size:.95rem}th,td{text-align:left
 footer{background:var(--deep);color:var(--seafoam);padding:48px 0 36px;font-size:.9rem}
 footer img{height:30px;margin-bottom:18px}footer a{color:var(--seafoam)}footer .cols{display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
 .small{font-size:.85rem;color:var(--stone)}
-@media(max-width:720px){nav{gap:14px;font-size:.85rem}.hero{padding:60px 0 64px}.rings{display:none}dl.facts{grid-template-columns:1fr}}
+@media(max-width:720px){.hdr{height:auto;padding:10px 0;flex-wrap:wrap}.hdr img{height:24px}nav{gap:12px;font-size:.82rem;flex-wrap:wrap}.hero{padding:60px 0 64px}.rings{display:none}dl.facts{grid-template-columns:1fr}}
 """
 
 RINGS = '<svg class="rings" viewBox="0 0 100 100" aria-hidden="true"><g fill="none" stroke="#F0EBE3" stroke-width=".6"><circle cx="50" cy="50" r="12"/><circle cx="50" cy="50" r="24"/><circle cx="50" cy="50" r="36"/><circle cx="50" cy="50" r="48"/></g></svg>'
