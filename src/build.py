@@ -74,8 +74,8 @@ DOCS = [
 # ---------- layout ----------
 CSS = """
 :root{--tide:#0D5C7F;--tide-mid:#1680A6;--deep:#083A55;--teal:#2E7D8C;--seafoam:#A3C4C9;--linen:#F0EBE3;--white:#FAFAF8;--stone:#6B8089;--ink:#1C2B33;--sand:#C4A882}
-*{box-sizing:border-box}html{scroll-behavior:smooth}
-body{margin:0;background:var(--linen);color:var(--ink);font:300 17px/1.65 "Source Sans 3",system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--linen);color:var(--ink);font:300 17px/1.65 "DM Sans",system-ui,sans-serif}
 h1,h2,h3{font-family:Cinzel,serif;font-weight:500;color:var(--tide);letter-spacing:.04em;line-height:1.2;margin:0 0 .5em}
 h1{font-size:clamp(1.9rem,4vw,2.9rem)}h2{font-size:clamp(1.4rem,2.6vw,1.9rem)}h3{font-size:1.1rem}
 a{color:var(--tide)}p{margin:0 0 1em}
@@ -84,10 +84,10 @@ header{background:var(--linen);border-bottom:1px solid #e2dcd2;position:sticky;t
 .hdr{display:flex;align-items:center;justify-content:space-between;height:68px;gap:16px}
 .hdr img{height:34px;display:block}
 nav{display:flex;gap:22px;font-size:.95rem}nav a{color:var(--stone);text-decoration:none}nav a:hover,nav a.on{color:var(--tide)}
-.hero{background:var(--tide);color:var(--white);position:relative;overflow:hidden;padding:88px 0 96px}
+.hero{background:radial-gradient(ellipse at 50% 60%,#2BAFC9 0%,#1478A0 68%);color:var(--white);position:relative;overflow:hidden;padding:88px 0 96px}.hero .wrap{position:relative}
 .hero h1{color:var(--white)}.hero p{max-width:40rem;font-size:1.15rem;opacity:.92}
-.rings{position:absolute;right:-120px;top:50%;transform:translateY(-50%);width:560px;height:560px;opacity:.25;pointer-events:none}
-.eyebrow{font-size:.78rem;letter-spacing:.28em;text-transform:uppercase;color:var(--seafoam);margin-bottom:14px}
+.ripples{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}.ripple{position:absolute;border-radius:50%;border:1px solid rgba(163,196,201,.18)}.ripple:nth-child(1){width:180px;height:180px}.ripple:nth-child(2){width:400px;height:400px;opacity:.55}.ripple:nth-child(3){width:680px;height:680px;opacity:.28}.ripple:nth-child(4){width:1000px;height:1000px;opacity:.12}.hero-home{min-height:88vh;display:flex;align-items:center;text-align:center}.hero-home .wrap{display:flex;flex-direction:column;align-items:center}.hero-mark{width:64px;height:64px;margin-bottom:32px}.hero-title{font-family:Cinzel,serif;font-weight:400;font-size:clamp(3.2rem,9vw,8rem);letter-spacing:.28em;color:var(--white);line-height:1;margin:0 0 28px;padding-left:.28em}.hero-sub{font-family:"Cormorant Garamond",serif;font-style:italic;font-weight:300;font-size:clamp(1.25rem,2.5vw,1.9rem);color:rgba(255,255,255,.88);line-height:1.55;max-width:540px;margin:0 auto 40px}.quote{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:1.25rem;color:var(--stone)}
+.eyebrow{font-size:.68rem;font-weight:500;letter-spacing:.42em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:22px}
 .btn{display:inline-block;padding:12px 22px;border-radius:3px;text-decoration:none;font-weight:400;letter-spacing:.06em;font-size:.95rem}
 .btn-sea{background:var(--seafoam);color:var(--deep)}.btn-sea:hover{background:var(--white)}
 .btn-dark{background:var(--tide);color:var(--white)}.btn-dark:hover{background:var(--teal)}
@@ -105,10 +105,11 @@ table{border-collapse:collapse;width:100%;font-size:.95rem}th,td{text-align:left
 footer{background:var(--deep);color:var(--seafoam);padding:48px 0 36px;font-size:.9rem}
 footer img{height:30px;margin-bottom:18px}footer a{color:var(--seafoam)}footer .cols{display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
 .small{font-size:.85rem;color:var(--stone)}
-@media(max-width:720px){.hdr{height:auto;padding:10px 0;flex-wrap:wrap}.hdr img{height:24px}nav{gap:12px;font-size:.82rem;flex-wrap:wrap}.hero{padding:60px 0 64px}.rings{display:none}dl.facts{grid-template-columns:1fr}}
+@media(max-width:720px){.hero-home{min-height:70vh}.hdr{height:auto;padding:10px 0;flex-wrap:wrap}.hdr img{height:24px}nav{gap:12px;font-size:.82rem;flex-wrap:wrap}.hero{padding:60px 0 64px}.rings{display:none}dl.facts{grid-template-columns:1fr}}
 """
 
-RINGS = '<svg class="rings" viewBox="0 0 100 100" aria-hidden="true"><g fill="none" stroke="#F0EBE3" stroke-width=".6"><circle cx="50" cy="50" r="12"/><circle cx="50" cy="50" r="24"/><circle cx="50" cy="50" r="36"/><circle cx="50" cy="50" r="48"/></g></svg>'
+RINGS = '<div class="ripples" aria-hidden="true"><div class="ripple"></div><div class="ripple"></div><div class="ripple"></div><div class="ripple"></div></div>'
+MARK = '<svg class="hero-mark" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42" fill="none" stroke="#FAFAF8" stroke-width="8"/><line x1="16.534" y1="68" x2="83.466" y2="68" stroke="#FAFAF8" stroke-width="8"/><circle cx="50" cy="50" r="5" fill="#FAFAF8"/></svg>'
 
 NAV = [("Products","/products/"),("Declarations","/doc/"),("Company","/company/"),("Contact","/contact/")]
 
@@ -118,8 +119,8 @@ def page(path, title, body, desc="", active=""):
     canonical = BASE + ("/" if path=="index.html" else "/"+os.path.dirname(path)+"/")
     doc = f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{html.escape(title)}</title><meta name="description" content="{html.escape(desc)}"><link rel="canonical" href="{canonical}">
-<link rel="icon" href="/assets/img/galene-avatar-tide.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/assets/img/favicon.ico" sizes="32x32"><link rel="icon" href="/assets/img/favicon-32.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/assets/img/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Cormorant+Garamond:ital,wght@1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>{CSS}</style></head><body>
 <header><div class="wrap hdr"><a href="/"><img src="/assets/img/galene-lockup-horizontal-tide.svg" alt="Galene"></a><nav>{nav}</nav></div></header>
 {body}
@@ -127,7 +128,7 @@ def page(path, title, body, desc="", active=""):
 <div><strong>{COMPANY['legal']}</strong>, trading as Galene<br>{COMPANY['addr']}<br>CRO {COMPANY['cro']} · VAT {COMPANY['vat']}</div>
 <div><a href="mailto:{COMPANY['email']}">{COMPANY['email']}</a><br>{COMPANY['phone']}</div>
 <div><a href="/doc/">Declarations of conformity</a><br><a href="/company/">Company information</a><br><a href="/privacy/">Privacy</a></div>
-</div><p style="margin-top:28px;opacity:.7">© {YEAR} {COMPANY['legal']}. Built for the way your brain works.</p></div></footer>
+</div><p style="margin-top:28px;opacity:.85">Calm at Work · Ireland<br><span class="quote" style="color:var(--seafoam)">Γαλήνη — the nereid who stilled the seas.</span></p><p style="opacity:.6">© {YEAR} {COMPANY['legal']}, trading as Galene. Built for the way your brain works.</p></div></footer>
 </body></html>"""
     full = os.path.join(OUT, path); os.makedirs(os.path.dirname(full), exist_ok=True)
     open(full,"w",encoding="utf-8").write(doc)
@@ -148,9 +149,8 @@ def build():
     open(os.path.join(OUT,".nojekyll"),"w").write("")
     # home
     cards = "".join(product_card(p) for p in PRODUCTS)
-    body = hero("Galene · Cashel, Ireland", "Built for the way your brain works — wherever you work.",
-        "Workplace tools for neurodivergent professionals: noise, glare, restlessness and time, dealt with quietly at the desk. Launching on Amazon.de in January 2027.",
-        '<a class="btn btn-sea" href="/products/">See the products</a> &nbsp; <a class="btn btn-ghost" href="/company/">About the company</a>')
+    body = f'<div class="hero hero-home">{RINGS}<div class="wrap">{MARK}<div class="eyebrow">Named for the goddess of calm seas</div><h1 class="hero-title">Galene</h1><p class="hero-sub">Built for the way your brain works — wherever you work.</p><p><a class="btn btn-sea" href="/products/">See the products</a> &nbsp; <a class="btn btn-ghost" href="/company/">About the company</a></p></div></div>'
+    body += '<section class="alt"><div class="wrap"><p style="max-width:44rem;font-size:1.1rem">Workplace tools for neurodivergent professionals: noise, glare, restlessness and time, dealt with quietly at the desk. Launching on Amazon.de in January 2027.</p></div></section>'
     body += f'<section><div class="wrap"><h2>The products</h2><p style="max-width:44rem">Five things chosen for one reason each. Nothing medical, nothing that looks out of place on a desk.</p><div class="grid">{cards}</div></div></section>'
     body += '<section class="alt"><div class="wrap"><h2>Why these five</h2><p style="max-width:44rem">Open-plan noise, screen glare, restlessness and time-blindness are the four difficulties neurodivergent adults name most often about work. Each product answers one of them with an ordinary object, chosen for its certification and build rather than for claims. We say what a product does and what it is tested to, and no more.</p></div></section>'
     page("index.html","Galene — built for the way your brain works", body, "Workplace tools for neurodivergent professionals. Ear inserts, tinted focus glasses, weighted lap blanket, screen light bar and visual timer. Launching on Amazon.de January 2027.")
