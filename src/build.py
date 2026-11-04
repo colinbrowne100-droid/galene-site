@@ -22,6 +22,7 @@ PRODUCTS = [
    ("Ear tips","XS 8 mm · S 10 mm · M 11 mm · L 12 mm, silicone, washable"),("Colours","Black. Midnight blue will follow once it is added to the certificate"),
    ("In the box","1 pair of inserts, ear tips in four sizes, carry case, leaflet (EN/DE/ES)"),
    ("Compliance","PPE Category III, Regulation (EU) 2016/425. EU type-examination: Aliénor Certification (NB 2754), certificate 2754/6256/159/06/25/0195. Production control: Certicore (NB 3232)"),],
+  image="ear-inserts", caption="Carry case, render. Photographs of the inserts follow in December.", asin=None,
   safety="Hearing protectors reduce noise; they do not remove it. Fit as shown in the leaflet and wear them for the whole time you are in noise. They can make alarms and speech harder to hear. Small parts: for adults only, keep away from children. Not for sale to or use by children.",
   price=None),
  dict(slug="focus-glasses", name="Tinted focus glasses", short="28013 and G0601",
@@ -46,6 +47,8 @@ PRODUCTS = [
   facts=[("Model","FDGL01, 42 cm, aluminium and ABS"),("Light","3000–6000 K in four modes, stepless dimming, CRI 81, no visible flicker"),
    ("Power","USB, 5 V DC 1 A, 5 W. Protection class III. No batteries. Power adapter not included"),("Energy label","Class G (EPREL 2533014, 5 kWh/1000 h)"),
    ("In the box","Light bar with monitor clip, USB cable, leaflet (EN/DE)"),("WEEE","Registered via Stiftung EAR, Germany: WEEE-Reg.-Nr. [TO CONFIRM]"),],
+  image=None,  # set to "screen-light-bar" once Limi confirms in writing that Galene may use Founder's render (asked 3 Nov); file is already in assets/img/products
+  caption="Manufacturer's render. Photographs of the Galene unit follow in December.", asin=None,
   safety="Indoor, dry use only. LEDs are not replaceable. Do not dispose of with household waste: electrical equipment goes to a collection point (crossed-out wheelie bin).",
   price=None),
  dict(slug="visual-timer", name="Visual timer", short="Analogue 60-minute countdown",
@@ -99,6 +102,7 @@ section{padding:64px 0}section.alt{background:var(--white)}
 .card h3{margin-bottom:.25em}.card .sub{color:var(--stone);font-size:.9rem;margin-bottom:.8em}.card p{flex:1}
 .card a.more{text-decoration:none;font-size:.95rem}
 .ph{background:var(--seafoam);aspect-ratio:4/3;border-radius:3px;display:flex;align-items:center;justify-content:center;color:var(--deep);font-size:.85rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px}
+.ph-img{width:100%;aspect-ratio:4/3;object-fit:contain;background:#fff;border-radius:3px;border:1px solid #e2dcd2;display:block}.pfig{margin:0}.pfig img{width:100%;height:auto;aspect-ratio:1;object-fit:contain;background:#fff;border-radius:3px;border:1px solid #e2dcd2;display:block}.pfig figcaption{margin-top:8px}
 dl.facts{display:grid;grid-template-columns:max-content 1fr;gap:8px 22px;margin:0}dl.facts dt{color:var(--stone);font-weight:400}dl.facts dd{margin:0}
 .note{background:var(--white);border-left:3px solid var(--sand);padding:16px 20px;margin:24px 0}
 table{border-collapse:collapse;width:100%;font-size:.95rem}th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid #e2dcd2}th{color:var(--stone);font-weight:400}
@@ -137,9 +141,17 @@ def hero(eyebrow, h1, p, ctas=""):
     return f'<div class="hero">{RINGS}<div class="wrap"><div class="eyebrow">{eyebrow}</div><h1>{h1}</h1><p>{p}</p>{ctas}</div></div>'
 
 def product_card(p):
-    return f'<div class="card"><div class="ph">Photo to follow</div><h3>{p["name"]}</h3><div class="sub">{p["short"]}</div><p>{p["one"]}</p><a class="more" href="/products/{p["slug"]}/">Details →</a></div>'
+    img = f'<img class="ph-img" src="/assets/img/products/{p["image"]}-card.jpg" alt="{html.escape(p["name"])}" loading="lazy" width="960" height="720">' if p.get("image") else '<div class="ph">Photo to follow</div>'
+    return f'<div class="card">{img}<h3>{p["name"]}</h3><div class="sub">{p["short"]}</div><p>{p["one"]}</p><a class="more" href="/products/{p["slug"]}/">Details →</a></div>'
+
+def product_figure(p):
+    if not p.get("image"): return '<div class="ph" style="aspect-ratio:1">Photo to follow</div>'
+    cap = f'<figcaption class="small">{html.escape(p["caption"])}</figcaption>' if p.get("caption") else ''
+    return f'<figure class="pfig"><img src="/assets/img/products/{p["image"]}.jpg" alt="{html.escape(p["name"])}" width="1200" height="1200">{cap}</figure>'
 
 def buy_button(p):
+    if p.get("asin"):
+        return f'<a class="btn btn-sea" href="https://www.amazon.de/dp/{p["asin"]}" rel="noopener">Buy on Amazon.de</a>'
     if p["slug"]=="visual-timer": return '<span class="btn btn-ghost" aria-disabled="true">Planned for early 2027 · not yet on sale</span>'
     return '<a class="btn btn-ghost" href="#" aria-disabled="true" title="Available on Amazon.de from January 2027">Buy on Amazon.de · from January 2027</a>'
 
@@ -162,7 +174,7 @@ def build():
     for p in PRODUCTS:
         facts = "".join(f"<dt>{k}</dt><dd>{html.escape(v)}</dd>" for k,v in p["facts"])
         body = hero(p["short"], p["name"], p["one"], buy_button(p))
-        body += f'<section><div class="wrap"><div class="grid" style="grid-template-columns:1fr 1fr;align-items:start"><div><div class="ph" style="aspect-ratio:1">Photo to follow</div></div><div><p>{p["intro"]}</p><h3>Details</h3><dl class="facts">{facts}</dl></div></div>'
+        body += f'<section><div class="wrap"><div class="grid" style="grid-template-columns:1fr 1fr;align-items:start"><div>{product_figure(p)}</div><div><p>{p["intro"]}</p><h3>Details</h3><dl class="facts">{facts}</dl></div></div>'
         body += f'<div class="note"><strong>Safety information.</strong> {p["safety"]}</div><p class="small">Declaration of conformity and test documentation: <a href="/doc/">galene.ie/doc</a>. Manufacturer and EU responsible person details: <a href="/company/">company information</a>.</p></div></section>'
         page(f"products/{p['slug']}/index.html", f"{p['name']} — Galene", body, p["one"], "Products")
     # doc

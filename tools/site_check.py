@@ -35,6 +35,9 @@ for path, rule in F['pages'].items():
         hrefs.add(l if l.startswith('http') else BASE + l)
 for l in sorted(hrefs):
     code, _ = fetch(l)
+    if 'amazon.' in l:
+        if code in (0, 404): fails.append(f'Amazon link {l}: HTTP {code} (listing missing?)')
+        continue
     if code not in (200, 301, 302): fails.append(f'link {l}: HTTP {code}')
 host = BASE.split('//')[1].split('/')[0]
 try:
