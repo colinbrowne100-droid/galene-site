@@ -19,9 +19,9 @@ PRODUCTS = [
   one="Take the edge off an open-plan office. Certified SNR 21 dB, reusable, in a case that fits a pocket.",
   intro="Open-plan offices are loud in a way that is hard to explain to people it does not bother. The Galene ear inserts lower the level without shutting you off: speech stays intelligible, the hum and the clatter drop back.",
   facts=[("Model","EN-Quietprop-S8 (Series 8)"),("Attenuation","SNR 21 dB · H 21 · M 19 · L 17 (EN 352-2:2020)"),
-   ("Ear tips","XS 8 mm · S 10 mm · M 11 mm · L 12 mm, silicone, washable"),("Colours","Black, midnight blue"),
+   ("Ear tips","XS 8 mm · S 10 mm · M 11 mm · L 12 mm, silicone, washable"),("Colours","Black. Midnight blue will follow once it is added to the certificate"),
    ("In the box","1 pair of inserts, ear tips in four sizes, carry case, leaflet (EN/DE/ES)"),
-   ("Compliance","PPE Category III, Regulation (EU) 2016/425. Notified body [TO CONFIRM]"),],
+   ("Compliance","PPE Category III, Regulation (EU) 2016/425. EU type-examination: Aliénor Certification (NB 2754), certificate 2754/6256/159/06/25/0195. Production control: Certicore (NB 3232)"),],
   safety="Hearing protectors reduce noise; they do not remove it. Fit as shown in the leaflet and wear them for the whole time you are in noise. They can make alarms and speech harder to hear. Small parts: for adults only, keep away from children. Not for sale to or use by children.",
   price=None),
  dict(slug="focus-glasses", name="Tinted focus glasses", short="28013 and G0601",
@@ -41,9 +41,9 @@ PRODUCTS = [
   safety="For adults. Not for children, infants or anyone who cannot remove the blanket themselves. Not flame retardant: keep away from open flames and heaters.",
   price=None),
  dict(slug="screen-light-bar", name="Screen light bar", short="FDGL01",
-  one="Even light on the desk in front of your monitor, with no glare on the screen and a soft glow behind it. USB powered, 3000–6500 K, flicker-free.",
+  one="Even light on the desk in front of your monitor, with no glare on the screen and a soft glow behind it. USB powered, 3000–6000 K, no visible flicker.",
   intro="The bar clips to the top edge of the monitor and lights the desk, not the screen. A warm-to-cool range and stepless dimming let you set it for the room; a back light takes the hard edge off a bright screen in a dim corner.",
-  facts=[("Model","FDGL01, 42 cm, aluminium and ABS"),("Light","3000–6500 K in four modes, stepless dimming, CRI > 90, flicker-free driver (16 kHz)"),
+  facts=[("Model","FDGL01, 42 cm, aluminium and ABS"),("Light","3000–6000 K in four modes, stepless dimming, CRI 81, no visible flicker"),
    ("Power","USB, 5 V DC 1 A, 5 W. Protection class III. No batteries. Power adapter not included"),("Energy label","Class G (EPREL 2533014, 5 kWh/1000 h)"),
    ("In the box","Light bar with monitor clip, USB cable, leaflet (EN/DE)"),("WEEE","Registered via Stiftung EAR, Germany: WEEE-Reg.-Nr. [TO CONFIRM]"),],
   safety="Indoor, dry use only. LEDs are not replaceable. Do not dispose of with household waste: electrical equipment goes to a collection point (crossed-out wheelie bin).",
@@ -60,7 +60,7 @@ PRODUCTS = [
 # ---------- doc page data ----------
 DOCS = [
  dict(product="Noise-reducing ear inserts, model EN-Quietprop-S8", reg="Regulation (EU) 2016/425 (PPE), Category III",
-  std="EN 352-2:2020", nb="[Notified body and certificate number to be confirmed]", status="Declaration will be published before the product goes on sale"),
+  std="EN 352-2:2020", nb="EU type-examination: Aliénor Certification, NB 2754, certificate 2754/6256/159/06/25/0195 (valid to 1 June 2030). Production control: Certicore, NB 3232", status="Declaration will be published before the product goes on sale"),
  dict(product="Tinted focus glasses, models 28013 and G0601", reg="Regulation (EU) 2016/425 (PPE), Category I",
   std="EN ISO 12312-1:2022 + A11:2024 (traffic-signal recognition not tested; marked not suitable for driving); REACH Annex XVII", nb="Test reports expected December 2026", status="Declaration will be published when the test reports are received"),
  dict(product="Screen light bar, model FDGL01", reg="Directive 2014/30/EU (EMC); Directive 2011/65/EU (RoHS); Regulation (EU) 2019/2020 and 2019/2015 (ecodesign and energy labelling of light sources); Directive 2012/19/EU (WEEE)",
@@ -105,7 +105,7 @@ table{border-collapse:collapse;width:100%;font-size:.95rem}th,td{text-align:left
 footer{background:var(--deep);color:var(--seafoam);padding:48px 0 36px;font-size:.9rem}
 footer img{height:30px;margin-bottom:18px}footer a{color:var(--seafoam)}footer .cols{display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
 .small{font-size:.85rem;color:var(--stone)}
-@media(max-width:720px){.hero-home{min-height:70vh}.hdr{height:auto;padding:10px 0;flex-wrap:wrap}.hdr img{height:24px}nav{gap:12px;font-size:.82rem;flex-wrap:wrap}.hero{padding:60px 0 64px}.rings{display:none}dl.facts{grid-template-columns:1fr}}
+@media(max-width:720px){.hero-home{min-height:70vh}.hdr{height:auto;padding:10px 20px;flex-wrap:wrap}.hdr img{height:24px}nav{gap:12px;font-size:.82rem;flex-wrap:wrap}.hero{padding:60px 0 64px}.rings{display:none}dl.facts{grid-template-columns:1fr}}
 """
 
 RINGS = '<div class="ripples" aria-hidden="true"><div class="ripple"></div><div class="ripple"></div><div class="ripple"></div><div class="ripple"></div></div>'
@@ -120,7 +120,7 @@ def page(path, title, body, desc="", active=""):
     doc = f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{html.escape(title)}</title><meta name="description" content="{html.escape(desc)}"><link rel="canonical" href="{canonical}">
 <link rel="icon" href="/assets/img/favicon.ico" sizes="32x32"><link rel="icon" href="/assets/img/favicon-32.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/assets/img/icon-180.png">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Cormorant+Garamond:ital,wght@1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/fonts/fonts.css">
 <style>{CSS}</style></head><body>
 <header><div class="wrap hdr"><a href="/"><img src="/assets/img/galene-lockup-horizontal-tide.svg" alt="Galene"></a><nav>{nav}</nav></div></header>
 {body}
@@ -140,6 +140,7 @@ def product_card(p):
     return f'<div class="card"><div class="ph">Photo to follow</div><h3>{p["name"]}</h3><div class="sub">{p["short"]}</div><p>{p["one"]}</p><a class="more" href="/products/{p["slug"]}/">Details →</a></div>'
 
 def buy_button(p):
+    if p["slug"]=="visual-timer": return '<span class="btn btn-ghost" aria-disabled="true">Planned for early 2027 · not yet on sale</span>'
     return '<a class="btn btn-ghost" href="#" aria-disabled="true" title="Available on Amazon.de from January 2027">Buy on Amazon.de · from January 2027</a>'
 
 def build():
@@ -152,7 +153,7 @@ def build():
     body = f'<div class="hero hero-home">{RINGS}<div class="wrap">{MARK}<div class="eyebrow">Named for the goddess of calm seas</div><h1 class="hero-title">Galene</h1><p class="hero-sub">Built for the way your brain works — wherever you work.</p><p><a class="btn btn-sea" href="/products/">See the products</a> &nbsp; <a class="btn btn-ghost" href="/company/">About the company</a></p></div></div>'
     body += '<section class="alt"><div class="wrap"><p style="max-width:44rem;font-size:1.1rem">Workplace tools for neurodivergent professionals: noise, glare, restlessness and time, dealt with quietly at the desk. Launching on Amazon.de in January 2027.</p></div></section>'
     body += f'<section><div class="wrap"><h2>The products</h2><p style="max-width:44rem">Five things chosen for one reason each. Nothing medical, nothing that looks out of place on a desk.</p><div class="grid">{cards}</div></div></section>'
-    body += '<section class="alt"><div class="wrap"><h2>Why these five</h2><p style="max-width:44rem">Open-plan noise, screen glare, restlessness and time-blindness are the four difficulties neurodivergent adults name most often about work. Each product answers one of them with an ordinary object, chosen for its certification and build rather than for claims. We say what a product does and what it is tested to, and no more.</p></div></section>'
+    body += '<section class="alt"><div class="wrap"><h2>Why these five</h2><p style="max-width:44rem">Open-plan noise, screen glare, restlessness and time-blindness are four of the most common difficulties neurodivergent adults describe at work. Each product answers one of them with an ordinary object, chosen for its certification and build rather than for claims. We say what a product does and what it is tested to, and no more.</p></div></section>'
     page("index.html","Galene — built for the way your brain works", body, "Workplace tools for neurodivergent professionals. Ear inserts, tinted focus glasses, weighted lap blanket, screen light bar and visual timer. Launching on Amazon.de January 2027.")
     # products index
     body = hero("Products","Five tools, one job each.","Available on Amazon.de from January 2027. Each page lists what the product is, what it is tested to, and the safety information that goes with it.")
@@ -185,7 +186,7 @@ def build():
     # privacy
     body = hero("Privacy","Privacy notice","Short, because this site collects almost nothing.")
     body += f'''<section><div class="wrap" style="max-width:48rem"><p><strong>Controller.</strong> {c["legal"]}, {c["addr"]}, {c["email"]}.</p>
-<p><strong>This website.</strong> It is a static site hosted on GitHub Pages (GitHub, Inc.). It sets no cookies and runs no analytics or tracking scripts. The host records standard server logs (IP address, time, page requested) for security, under GitHub's own privacy statement. Fonts are loaded from Google Fonts, which receives your IP address when the font files are requested.</p>
+<p><strong>This website.</strong> It is a static site hosted on GitHub Pages (GitHub, Inc.). It sets no cookies and runs no analytics or tracking scripts. The host records standard server logs (IP address, time, page requested) for security, under GitHub's own privacy statement. Fonts are served from this site; nothing is loaded from third-party servers.</p>
 <p><strong>Email.</strong> If you write to us, we keep your message and our reply for as long as needed to deal with it and for our records (legal basis: Article 6(1)(b) and (f) GDPR). Our email is hosted by Google Workspace (Google Ireland Ltd).</p>
 <p><strong>Purchases.</strong> Orders are placed on Amazon. Amazon is the controller for the order data it collects. We receive only what is needed to fulfil the order and to handle returns and safety obligations, and keep it for the periods required by tax and product-safety law.</p>
 <p><strong>Your rights.</strong> Access, rectification, erasure, restriction, portability and objection, by email to {c["email"]}. You may complain to the Data Protection Commission (dataprotection.ie) or your local supervisory authority.</p>
