@@ -1,0 +1,17 @@
+{
+  "_note": "Source of truth for the daily galene.ie check. Update this file the day a certificate, colour, spec or sale status changes, then run tools/site_check.py. 'must' strings must appear on the page; 'must_not' strings must not.",
+  "pages": {
+    "/": {"must": ["Launching on Amazon.de in January 2027"], "must_not": ["googleapis", "name most often"]},
+    "/products/ear-inserts/": {"must": ["SNR 21 dB", "H 21", "M 19", "L 17", "EN 352-2:2020", "Aliénor Certification (NB 2754)", "2754/6256/159/06/25/0195", "Certicore (NB 3232)", "Category III"], "must_not": ["Black, midnight blue", "[TO CONFIRM]", "noise cancelling", "noise-cancelling"]},
+    "/products/focus-glasses/": {"must": ["filter category 0", "Not suitable for driving", "EN ISO 12312-1"], "must_not": ["UV400", "medical", "[TO CONFIRM]"]},
+    "/products/screen-light-bar/": {"must": ["3000–6000 K", "CRI 81", "EPREL 2533014", "5 kWh/1000 h", "Class G"], "must_not": ["6500 K", "CRI > 90", "16 kHz"]},
+    "/products/visual-timer/": {"must": ["Planned for early 2027"], "must_not": ["Buy on Amazon.de"]},
+    "/products/weighted-lap-blanket/": {"must": ["2021OK2653", "For adults"], "must_not": ["anxiety", "autism", "ADHD", "treats", "relieves", "cures"]},
+    "/doc/": {"must": ["2754/6256/159/06/25/0195", "Certicore", "EPREL 2533014"], "must_not": ["to be confirmed]"]},
+    "/company/": {"must": ["819392", "789698", "IE4757715FH", "§ 5 DDG"], "must_not": []},
+    "/privacy/": {"must": ["sets no cookies"], "must_not": ["Google Fonts"]},
+    "/contact/": {"must": ["info@galene.ie"], "must_not": []}
+  },
+  "placeholders": ["[TO CONFIRM]", "to be confirmed", "to be announced", "wird nach Erteilung ergänzt", "Photo to follow"],
+  "cert_min_days": 14
+}
