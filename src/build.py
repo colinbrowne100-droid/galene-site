@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Static site generator for galene.ie. Run: python3 src/build.py  -> writes to ./site"""
-import os, shutil, html, datetime
+import os, shutil, html, datetime, urllib.parse
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "site")
 BASE = "https://galene.ie"
@@ -111,12 +111,16 @@ section{padding:64px 0}section.alt{background:var(--white)}
 .ph-img{width:100%;height:auto;aspect-ratio:4/3;object-fit:contain;background:#fff;border-radius:3px;border:1px solid var(--line);display:block;margin-bottom:18px}.pfig{margin:0}.pfig img{width:100%;height:auto;aspect-ratio:1;object-fit:contain;background:#fff;border-radius:3px;border:1px solid var(--line);display:block}.pfig figcaption{margin-top:8px}
 dl.facts{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:8px 22px;margin:0}dl.facts dt{color:var(--stone);font-weight:400}dl.facts dd{margin:0;overflow-wrap:anywhere}
 .note{background:var(--white);border-left:3px solid var(--sand);padding:16px 20px;margin:24px 0}
-table{border-collapse:collapse;width:100%;font-size:.95rem}th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line);overflow-wrap:anywhere}thead th{color:var(--stone);font-weight:400}tbody th{font-weight:500}
+table{border-collapse:collapse;width:100%;font-size:.95rem}th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line);overflow-wrap:anywhere}thead th{color:var(--stone);font-weight:400}tbody th{font-weight:500}tbody th a{display:inline-block;padding:4px 0}
 footer{background:var(--deep);color:var(--seafoam);padding:48px 0 36px;font-size:.9rem}
 footer img{height:30px;width:auto;margin-bottom:18px}footer a{color:var(--seafoam);display:inline-block;padding:4px 0}footer .cols{display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}footer .tag{margin-top:28px}footer .quote{color:var(--seafoam)}footer .fine{font-size:.82rem}
 .small{font-size:.85rem;color:var(--stone)}
+.pts{display:grid;gap:28px 56px;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));margin-top:28px}.pts h3{margin-bottom:.35em}.pts p{margin:0}
+.steps{list-style:none;padding:0;margin:28px 0 0;counter-reset:s;display:grid;gap:28px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}.steps li{counter-increment:s;border-top:2px solid var(--teal);padding-top:14px}.steps li::before{content:counter(s,decimal-leading-zero);font-family:Cinzel,serif;font-size:1.5rem;color:var(--tide);display:block;margin-bottom:6px}.steps strong{font-weight:500}
+.band{background:var(--deep);color:var(--white)}.band h2{color:var(--white)}.band p{max-width:44rem}.band .small{color:var(--seafoam)}.band a:not(.btn){color:var(--white)}.band :focus-visible{outline-color:var(--white)}
+.lead{max-width:44rem;font-size:1.1rem}
 @view-transition{navigation:auto}
-@media(max-width:720px){.hero-home{min-height:70vh;min-height:70svh}.hdr{height:auto;padding:8px 20px 0;flex-wrap:wrap;gap:0 16px}.hdr img{height:24px}nav{width:100%;justify-content:space-between;gap:0;font-size:.82rem}nav a{padding:0}.hero{padding:60px 0 64px}.split{grid-template-columns:minmax(0,1fr)}dl.facts{grid-template-columns:minmax(0,1fr);gap:2px 0}dl.facts dd{margin-bottom:10px}
+@media(max-width:860px){.hero-home{min-height:70vh;min-height:70svh}.hdr{height:auto;padding:8px 20px 0;flex-wrap:wrap;gap:0 16px}.hdr img{height:24px}nav{width:100%;justify-content:space-between;gap:0;font-size:clamp(.72rem,3.5vw,.82rem)}nav a{padding:0}.hero{padding:60px 0 64px}.split{grid-template-columns:minmax(0,1fr)}dl.facts{grid-template-columns:minmax(0,1fr);gap:2px 0}dl.facts dd{margin-bottom:10px}
 table,thead,tbody,tr,th,td{display:block}thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}tbody tr{background:var(--white);border-left:3px solid var(--teal);padding:14px 16px;margin-bottom:16px}tbody th,tbody td{border:0;padding:6px 0}td[data-label]::before{content:attr(data-label);display:block;font-size:.74rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--stone)}}
 @media(prefers-reduced-motion:reduce){.card{transition:none}.card:hover{transform:none}::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}
 """
@@ -128,7 +132,7 @@ CSP = "default-src 'none'; style-src 'unsafe-inline'; img-src 'self' data:; font
 SPEC = '{"prefetch":[{"where":{"and":[{"href_matches":"/*"},{"not":{"selector_matches":"[rel~=nofollow]"}}]},"eagerness":"moderate"}]}'
 FONTS = " ".join(open(os.path.join(ROOT,"assets","fonts","fonts.css"),encoding="utf-8").read().split())
 
-NAV = [("Products","/products/"),("Declarations","/doc/"),("Company","/company/"),("Contact","/contact/")]
+NAV = [("Products","/products/"),("Employers","/employers/"),("Declarations","/doc/"),("Company","/company/"),("Contact","/contact/")]
 
 def page(path, title, body, desc="", active=""):
     depth = path.count("/")
@@ -151,7 +155,7 @@ def page(path, title, body, desc="", active=""):
 <footer><div class="wrap"><img src="/assets/img/galene-lockup-horizontal-linen.svg" alt="Galene" width="244" height="30" loading="lazy"><div class="cols">
 <div><strong>{COMPANY['legal']}</strong>, trading as Galene<br>{COMPANY['addr']}<br>CRO {COMPANY['cro']} · VAT {COMPANY['vat']}</div>
 <div><a href="mailto:{COMPANY['email']}">{COMPANY['email']}</a><br>{COMPANY['phone']}</div>
-<div><a href="/doc/">Declarations of conformity</a><br><a href="/company/">Company information</a><br><a href="/privacy/">Privacy</a></div>
+<div><a href="/employers/">For employers</a><br><a href="/doc/">Declarations of conformity</a><br><a href="/company/">Company information</a><br><a href="/privacy/">Privacy</a></div>
 </div><p class="tag">Calm at Work · Ireland<br><span class="quote"><span lang="el">Γαλήνη</span> — the nereid who stilled the seas.</span></p><p class="fine">© {YEAR} {COMPANY['legal']}, trading as Galene. Built for the way your brain works.</p></div></footer>
 </body></html>"""
     full = os.path.join(OUT, path); os.makedirs(os.path.dirname(full), exist_ok=True)
@@ -162,7 +166,7 @@ def hero(eyebrow, h1, p, ctas=""):
 
 def product_card(p, tag="h3"):
     b = f'/assets/img/products/{p.get("image")}-card'
-    img = f'<picture><source type="image/webp" srcset="{b}-half.webp 480w, {b}.webp 960w" sizes="(max-width:720px) 90vw, 330px"><img class="ph-img" src="{b}.jpg" alt="" loading="lazy" decoding="async" width="960" height="720"></picture>' if p.get("image") else '<div class="ph">Photo to follow</div>'
+    img = f'<picture><source type="image/webp" srcset="{b}-half.webp 480w, {b}.webp 960w" sizes="(max-width:860px) 90vw, 330px"><img class="ph-img" src="{b}.jpg" alt="" loading="lazy" decoding="async" width="960" height="720"></picture>' if p.get("image") else '<div class="ph">Photo to follow</div>'
     cls = ' class="h3"' if tag!="h3" else ""
     return f'<article class="card">{img}<{tag}{cls}>{p["name"]}</{tag}><div class="sub">{p["short"]}</div><p>{p["one"]}</p><a class="more" href="/products/{p["slug"]}/">Details<span class="vh">: {p["name"]}</span>&nbsp;<span aria-hidden="true">→</span></a></article>'
 
@@ -170,7 +174,7 @@ def product_figure(p):
     if not p.get("image"): return '<div class="ph ph-sq">Photo to follow</div>'
     cap = f'<figcaption class="small">{html.escape(p["caption"])}</figcaption>' if p.get("caption") else ''
     b = f'/assets/img/products/{p["image"]}'
-    return f'<figure class="pfig"><picture><source type="image/webp" srcset="{b}-half.webp 600w, {b}.webp 1200w" sizes="(max-width:720px) 90vw, 500px"><img src="{b}.jpg" alt="{html.escape(p["name"])}" width="1200" height="1200" fetchpriority="high"></picture>{cap}</figure>'
+    return f'<figure class="pfig"><picture><source type="image/webp" srcset="{b}-half.webp 600w, {b}.webp 1200w" sizes="(max-width:860px) 90vw, 500px"><img src="{b}.jpg" alt="{html.escape(p["name"])}" width="1200" height="1200" fetchpriority="high"></picture>{cap}</figure>'
 
 def buy_button(p):
     if p.get("asin"):
@@ -188,6 +192,7 @@ def build():
     body = f'<div class="hero hero-home">{RINGS}<div class="wrap">{MARK}<div class="eyebrow">Named for the goddess of calm seas</div><h1 class="hero-title">Galene</h1><p class="hero-sub">Built for the way your brain works — wherever you work.</p><p class="cta"><a class="btn btn-sea" href="/products/">See the products</a><a class="btn btn-ghost" href="/company/">About the company</a></p></div></div>'
     body += '<section class="alt"><div class="wrap"><p style="max-width:44rem;font-size:1.1rem">Workplace tools for neurodivergent professionals: noise, glare, restlessness and time, dealt with quietly at the desk. Launching on Amazon.de in January 2027.</p></div></section>'
     body += f'<section><div class="wrap"><h2>The products</h2><p style="max-width:44rem">Five things chosen for one reason each. Nothing medical, nothing that looks out of place on a desk.</p><div class="grid">{cards}</div></div></section>'
+    body += '<section class="band"><div class="wrap"><h2>For employers</h2><p>A reasonable adjustment is often a small one: less noise, softer light, a way to see time passing. Galene supplies the tools with the compliance paperwork your health and safety or procurement team needs to approve them.</p><p class="cta"><a class="btn btn-sea" href="/employers/">How it works for employers</a></p></div></section>'
     body += '<section class="alt"><div class="wrap"><h2>Why these five</h2><p style="max-width:44rem">Open-plan noise, screen glare, restlessness and time-blindness are four of the most common difficulties neurodivergent adults describe at work. Each product answers one of them with an ordinary object, chosen for its certification and build rather than for claims. We say what a product does and what it is tested to, and no more.</p></div></section>'
     page("index.html","Galene — built for the way your brain works", body, "Workplace tools for neurodivergent professionals. Ear inserts, tinted focus glasses, weighted lap blanket, screen light bar and visual timer. Launching on Amazon.de January 2027.")
     # products index
@@ -201,6 +206,39 @@ def build():
         body += f'<section><div class="wrap"><div class="split"><div>{product_figure(p)}</div><div><p>{p["intro"]}</p><h2 class="h3">Details</h2><dl class="facts">{facts}</dl></div></div>'
         body += f'<div class="note"><strong>Safety information.</strong> {p["safety"]}</div><p class="small">Declaration of conformity and test documentation: <a href="/doc/">galene.ie/doc</a>. Manufacturer and EU responsible person details: <a href="/company/">company information</a>.</p></div></section>'
         page(f"products/{p['slug']}/index.html", f"{p['name']} — Galene", body, p["one"], "Products")
+    # employers
+    def mail(subject, lines):
+        return "mailto:" + COMPANY["email"] + "?subject=" + urllib.parse.quote(subject) + "&body=" + urllib.parse.quote("\n".join(lines) + "\n")
+    fields = ["Name:", "Employer:", "Your role:", "Number of employees:", "Anything we should know:"]
+    m_kit = mail("Sample kit request", ["I would like a Galene sample kit to assess.", ""] + fields)
+    m_pilot = mail("Pilot enquiry", ["I would like to ask about a Galene pilot.", "", "Site or team, and approximate number of people:"] + fields)
+    body = hero("For employers","Small, practical tools for the desks where work is harder than it needs to be.","Open-plan noise, harsh lighting, long stretches at a screen and time that slips away are everyday obstacles for many employees, and for neurodivergent colleagues in particular. Galene supplies discreet, adult desk tools that deal with each of these, with the compliance paperwork an employer needs to approve them.",
+        f'<p class="cta"><a class="btn btn-sea" href="{m_kit}">Request a sample kit</a><a class="btn btn-ghost" href="{m_pilot}">Ask about a pilot</a></p>')
+    body += """<section class="alt"><div class="wrap"><h2>Why employers use Galene</h2><div class="pts">
+<div><h3>An adjustment you can make quickly</h3><p>Employers in Ireland and across the EU have a duty to provide reasonable accommodation. Most requests are small: less noise, softer light, a way to see time passing. These are tools for exactly that, at a cost that rarely needs a business case.</p></div>
+<div><h3>Paperwork included</h3><p>Each product is supplied with its declaration of conformity and a one-page specification your health and safety or procurement team can file. The list of regulations and standards is public at <a href="/doc/">galene.ie/doc</a>.</p></div>
+<div><h3>One supplier, one invoice</h3><p>An Irish company, registered in Cashel, Co. Tipperary, invoicing in euro with Irish VAT.</p></div>
+<div><h3>Discreet by design</h3><p>Plain colours, no slogans, nothing that singles a person out. Nothing in the range looks like a medical aid or a toy.</p></div>
+</div></div></section>"""
+    RANGE = [("ear-inserts","Taking the edge off open-plan noise while speech stays intelligible","Certified hearing protection, SNR 21 dB (EN 352-2:2020). PPE Category III. Reusable, four tip sizes, pocket case. Black"),
+     ("focus-glasses","Softening screen glare and bright overhead lighting","Light yellow or tan tint, filter category 0, in an ordinary adult frame. Not suitable for driving. Not safety eyewear"),
+     ("screen-light-bar","Even light on the desk without glare on the screen","USB powered, 3000–6000 K, stepless dimming, no visible flicker. Energy class G"),
+     ("weighted-lap-blanket","Steady, quiet weight during long desk work","Cotton with glass-bead fill and a removable cover. Blanket 70 × 100 cm, 3 kg; lap pad 48 × 56 cm, 2.3 kg. For adults"),
+     ("visual-timer","Making the time that is left visible at a glance","Analogue countdown with a silent mode. Planned for early 2027")]
+    names = {p["slug"]: p["name"] for p in PRODUCTS}
+    rrows = "".join(f"<tr role=row><th scope=row role=rowheader><a href='/products/{sl}/'>{names[sl]}</a></th><td role=cell data-label='What it is for'>{w}</td><td role=cell data-label='Key facts'>{k}</td></tr>" for sl,w,k in RANGE)
+    body += f"""<section><div class="wrap"><h2>The range</h2><p class="lead">Five tools, one job each. Full specifications and safety information are on each product page.</p>
+<table role="table" aria-label="The Galene range"><thead role="rowgroup"><tr role="row"><th role="columnheader" scope="col">Tool</th><th role="columnheader" scope="col">What it is for</th><th role="columnheader" scope="col">Key facts</th></tr></thead><tbody role="rowgroup">{rrows}</tbody></table></div></section>"""
+    body += """<section class="alt"><div class="wrap"><h2>How it works</h2><ol class="steps">
+<li><strong>Sample kit.</strong> Tell us who you are and we send one set of the range to a named HR, occupational health or facilities contact to assess. Kits ship from March 2027, when our Irish stock arrives; you can reserve one now.</li>
+<li><strong>Pilot.</strong> 10 to 25 units, any mix, for one site, team or employee network, at a fixed price on one invoice. After six weeks we send a short anonymous survey and share the results with you.</li>
+<li><strong>Ongoing supply.</strong> Employees or managers request what they need and you receive one monthly invoice. Volume prices apply from 10 units.</li>
+</ol><p class="lead" style="margin-top:36px"><strong>Prices.</strong> Pilot and volume prices are quoted on request, excluding VAT, on one invoice.</p></div></section>"""
+    body += """<section><div class="wrap"><div class="note"><strong>What we do not claim.</strong> These are everyday desk tools. They are not medical devices, and we make no claim that they treat or improve any condition. The ear inserts are certified hearing protection and the stated attenuation is the certified figure. Where a product has limits, for example that the glasses are not for driving, we say so on the product page and on the pack.</div></div></section>"""
+    body += f"""<section class="band"><div class="wrap"><h2>Start with an email</h2><p>Tell us your name, your employer, your role and roughly how many people you employ, and whether you would like a sample kit or a pilot quote. We reply within two working days.</p>
+<p class="cta"><a class="btn btn-sea" href="{m_kit}">Request a sample kit</a><a class="btn btn-ghost" href="{m_pilot}">Ask about a pilot</a></p>
+<p class="small">Or write to <a href="mailto:{COMPANY['email']}">{COMPANY['email']}</a>. We use your details only to reply to your request. See our <a href="/privacy/">privacy notice</a>.</p></div></section>"""
+    page("employers/index.html","For employers — Galene", body, "Workplace adjustment tools for employers: noise, glare, restlessness and time. Sample kits, pilots and one invoice from an Irish supplier.", "Employers")
     # doc
     rows = "".join(f"<tr role=row><th scope=row role=rowheader>{d['product']}</th><td role=cell data-label='EU legislation'>{d['reg']}</td><td role=cell data-label='Standards and certificates'>{d['std']}</td><td role=cell data-label='Notified body'>{d['nb']}</td><td role=cell data-label='Declaration'>{d['status']}</td></tr>" for d in DOCS)
     body = hero("galene.ie/doc","Declarations of conformity","This is the address printed on Galene packaging. Each product's EU declaration of conformity, the regulations it is declared against and the standards applied are listed here, with a PDF of the signed declaration once the product is on sale.")
