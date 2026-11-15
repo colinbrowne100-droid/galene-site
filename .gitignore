@@ -1,2 +1,5 @@
 site/
 __pycache__/
+.agents/
+.claude/
+skills-lock.json

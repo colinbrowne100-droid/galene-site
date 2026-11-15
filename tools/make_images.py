@@ -14,4 +14,8 @@ def fit(img, w, h, pad=0.06):
     canvas = Image.new('RGB', (w, h), 'white'); canvas.paste(c, ((w-c.width)//2, (h-c.height)//2)); return canvas
 fit(im, 1200, 1200).save(os.path.join(out, f'{slug}.jpg'), quality=86, optimize=True, progressive=True)
 fit(im, 960, 720).save(os.path.join(out, f'{slug}-card.jpg'), quality=84, optimize=True, progressive=True)
+for name, (w, h) in ((slug, (1200, 1200)), (f'{slug}-card', (960, 720))):
+    j = Image.open(os.path.join(out, name + '.jpg'))
+    j.save(os.path.join(out, name + '.webp'), 'WEBP', quality=80, method=6)
+    j.resize((w // 2, h // 2), Image.LANCZOS).save(os.path.join(out, name + '-half.webp'), 'WEBP', quality=80, method=6)
 print('wrote', slug, [os.path.getsize(os.path.join(out, f)) // 1024 for f in (f'{slug}.jpg', f'{slug}-card.jpg')], 'KB')

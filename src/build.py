@@ -76,63 +76,83 @@ DOCS = [
 
 # ---------- layout ----------
 CSS = """
-:root{--tide:#0D5C7F;--tide-mid:#1680A6;--deep:#083A55;--teal:#2E7D8C;--seafoam:#A3C4C9;--linen:#F0EBE3;--white:#FAFAF8;--stone:#6B8089;--ink:#1C2B33;--sand:#C4A882}
+:root{--tide:#0D5C7F;--tide-mid:#1478A0;--deep:#083A55;--teal:#2E7D8C;--seafoam:#A3C4C9;--linen:#F0EBE3;--white:#FAFAF8;--stone:#536770;--ink:#1C2B33;--sand:#C4A882;--line:#e2dcd2;color-scheme:light}
 *{box-sizing:border-box}
-body{margin:0;background:var(--linen);color:var(--ink);font:300 17px/1.65 "DM Sans",system-ui,sans-serif}
-h1,h2,h3{font-family:Cinzel,serif;font-weight:500;color:var(--tide);letter-spacing:.04em;line-height:1.2;margin:0 0 .5em}
-h1{font-size:clamp(1.9rem,4vw,2.9rem)}h2{font-size:clamp(1.4rem,2.6vw,1.9rem)}h3{font-size:1.1rem}
-a{color:var(--tide)}p{margin:0 0 1em}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-padding-top:100px}
+body{margin:0;background:var(--linen);color:var(--ink);font:300 1.0625rem/1.65 "DM Sans",system-ui,sans-serif}
+h1,h2,h3{font-family:Cinzel,serif;font-weight:500;color:var(--tide);letter-spacing:.04em;line-height:1.2;margin:0 0 .5em;text-wrap:balance}
+h1{font-size:clamp(1.9rem,4vw,2.9rem)}h2{font-size:clamp(1.4rem,2.6vw,1.9rem)}h3,.h3{font-size:1.1rem}
+a{color:var(--tide);text-underline-offset:.15em}p{margin:0 0 1em;text-wrap:pretty}
+:focus-visible{outline:2px solid var(--tide);outline-offset:3px;border-radius:2px}.hero :focus-visible,footer :focus-visible{outline-color:var(--white)}
+.skip{position:absolute;left:12px;top:-80px;background:var(--deep);color:var(--white);padding:10px 16px;border-radius:3px;z-index:10;text-decoration:none}.skip:focus{top:12px}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
-header{background:var(--linen);border-bottom:1px solid #e2dcd2;position:sticky;top:0;z-index:5}
+header{background:var(--linen);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
 .hdr{display:flex;align-items:center;justify-content:space-between;height:68px;gap:16px}
-.hdr img{height:34px;display:block}
-nav{display:flex;gap:22px;font-size:.95rem}nav a{color:var(--stone);text-decoration:none}nav a:hover,nav a.on{color:var(--tide)}
-.hero{background:radial-gradient(ellipse at 50% 60%,#2BAFC9 0%,#1478A0 68%);color:var(--white);position:relative;overflow:hidden;padding:88px 0 96px}.hero .wrap{position:relative}
-.hero h1{color:var(--white)}.hero p{max-width:40rem;font-size:1.15rem;opacity:.92}
-.ripples{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}.ripple{position:absolute;border-radius:50%;border:1px solid rgba(163,196,201,.18)}.ripple:nth-child(1){width:180px;height:180px}.ripple:nth-child(2){width:400px;height:400px;opacity:.55}.ripple:nth-child(3){width:680px;height:680px;opacity:.28}.ripple:nth-child(4){width:1000px;height:1000px;opacity:.12}.hero-home{min-height:88vh;display:flex;align-items:center;text-align:center}.hero-home .wrap{display:flex;flex-direction:column;align-items:center}.hero-mark{width:64px;height:64px;margin-bottom:32px}.hero-title{font-family:Cinzel,serif;font-weight:400;font-size:clamp(3.2rem,9vw,8rem);letter-spacing:.28em;color:var(--white);line-height:1;margin:0 0 28px;padding-left:.28em}.hero-sub{font-family:"Cormorant Garamond",serif;font-style:italic;font-weight:300;font-size:clamp(1.25rem,2.5vw,1.9rem);color:rgba(255,255,255,.88);line-height:1.55;max-width:540px;margin:0 auto 40px}.quote{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:1.25rem;color:var(--stone)}
-.eyebrow{font-size:.68rem;font-weight:500;letter-spacing:.42em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:22px}
+.hdr img{height:34px;width:auto;display:block}
+nav{display:flex;gap:6px;font-size:.95rem}nav a{color:var(--stone);text-decoration:none;display:inline-flex;align-items:center;min-height:44px;padding:0 10px;border-bottom:2px solid transparent}nav a:hover{color:var(--tide)}nav a[aria-current]{color:var(--tide);border-bottom-color:var(--tide)}
+.hero{background:radial-gradient(ellipse at 50% 60%,#1478A0 0%,#0D5C7F 78%);color:var(--white);position:relative;overflow:hidden;padding:88px 0 96px}.hero .wrap{position:relative}
+.hero h1{color:var(--white)}.hero p{max-width:40rem;font-size:1.15rem}
+.ripples{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}.ripple{position:absolute;border-radius:50%;border:1px solid rgba(163,196,201,.22)}.ripple:nth-child(1){width:180px;height:180px}.ripple:nth-child(2){width:400px;height:400px;opacity:.55}.ripple:nth-child(3){width:680px;height:680px;opacity:.28}.ripple:nth-child(4){width:1000px;height:1000px;opacity:.12}.hero-home{min-height:88vh;min-height:88svh;display:flex;align-items:center;text-align:center}.hero-home .wrap{display:flex;flex-direction:column;align-items:center}.hero-mark{width:64px;height:64px;margin-bottom:32px}.hero-title{font-family:Cinzel,serif;font-weight:400;font-size:clamp(2.6rem,9vw,8rem);letter-spacing:.28em;color:var(--white);line-height:1;margin:0 0 28px;padding-left:.28em}.hero-sub{font-family:"Cormorant Garamond",serif;font-style:italic;font-weight:300;font-size:clamp(1.3rem,2.5vw,1.9rem);color:var(--white);line-height:1.55;max-width:540px;margin:0 auto 40px}.quote{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:1.25rem;color:var(--stone)}
+.eyebrow{font-size:.72rem;font-weight:500;letter-spacing:.42em;text-transform:uppercase;color:var(--white);margin-bottom:22px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}.hero-home .cta{justify-content:center}
 .btn{display:inline-block;padding:12px 22px;border-radius:3px;text-decoration:none;font-weight:400;letter-spacing:.06em;font-size:.95rem}
 .btn-sea{background:var(--seafoam);color:var(--deep)}.btn-sea:hover{background:var(--white)}
 .btn-dark{background:var(--tide);color:var(--white)}.btn-dark:hover{background:var(--teal)}
-.btn-ghost{border:1px solid var(--seafoam);color:var(--white)}.btn-ghost:hover{border-color:var(--white)}
-.btn[aria-disabled]{opacity:.55;cursor:default}
+.btn-ghost{border:1px solid rgba(250,250,248,.75);color:var(--white)}.btn-ghost:hover{border-color:var(--white);background:rgba(250,250,248,.08)}
+.btn-soon{border:1px dashed rgba(250,250,248,.75);color:var(--white);cursor:default}
 section{padding:64px 0}section.alt{background:var(--white)}
 .grid{display:grid;gap:28px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
-.card{background:var(--white);border-left:3px solid var(--teal);padding:24px 24px 20px;display:flex;flex-direction:column}
-.card h3{margin-bottom:.25em}.card .sub{color:var(--stone);font-size:.9rem;margin-bottom:.8em}.card p{flex:1}
-.card a.more{text-decoration:none;font-size:.95rem}
-.ph{background:var(--seafoam);aspect-ratio:4/3;border-radius:3px;display:flex;align-items:center;justify-content:center;color:var(--deep);font-size:.85rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px}
-.ph-img{width:100%;aspect-ratio:4/3;object-fit:contain;background:#fff;border-radius:3px;border:1px solid #e2dcd2;display:block}.pfig{margin:0}.pfig img{width:100%;height:auto;aspect-ratio:1;object-fit:contain;background:#fff;border-radius:3px;border:1px solid #e2dcd2;display:block}.pfig figcaption{margin-top:8px}
-dl.facts{display:grid;grid-template-columns:max-content 1fr;gap:8px 22px;margin:0}dl.facts dt{color:var(--stone);font-weight:400}dl.facts dd{margin:0}
+.split{display:grid;gap:28px;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start}
+.card{background:var(--white);border-left:3px solid var(--teal);padding:24px 24px 20px;display:flex;flex-direction:column;transition:transform .2s ease,box-shadow .2s ease}.card:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(8,58,85,.09)}
+.card h2,.card h3{margin:0 0 .25em}.card .sub{color:var(--stone);font-size:.9rem;margin-bottom:.8em}.card p{flex:1}
+.card a.more{text-decoration:none;font-size:.95rem;display:inline-flex;align-items:center;min-height:44px;margin-bottom:-10px}.card a.more:hover{text-decoration:underline}
+.ph{background:var(--seafoam);aspect-ratio:4/3;border-radius:3px;display:flex;align-items:center;justify-content:center;color:var(--deep);font-size:.85rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px}.ph-sq{aspect-ratio:1}
+.ph-img{width:100%;height:auto;aspect-ratio:4/3;object-fit:contain;background:#fff;border-radius:3px;border:1px solid var(--line);display:block;margin-bottom:18px}.pfig{margin:0}.pfig img{width:100%;height:auto;aspect-ratio:1;object-fit:contain;background:#fff;border-radius:3px;border:1px solid var(--line);display:block}.pfig figcaption{margin-top:8px}
+dl.facts{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:8px 22px;margin:0}dl.facts dt{color:var(--stone);font-weight:400}dl.facts dd{margin:0;overflow-wrap:anywhere}
 .note{background:var(--white);border-left:3px solid var(--sand);padding:16px 20px;margin:24px 0}
-table{border-collapse:collapse;width:100%;font-size:.95rem}th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid #e2dcd2}th{color:var(--stone);font-weight:400}
+table{border-collapse:collapse;width:100%;font-size:.95rem}th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line);overflow-wrap:anywhere}thead th{color:var(--stone);font-weight:400}tbody th{font-weight:500}
 footer{background:var(--deep);color:var(--seafoam);padding:48px 0 36px;font-size:.9rem}
-footer img{height:30px;margin-bottom:18px}footer a{color:var(--seafoam)}footer .cols{display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+footer img{height:30px;width:auto;margin-bottom:18px}footer a{color:var(--seafoam);display:inline-block;padding:4px 0}footer .cols{display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}footer .tag{margin-top:28px}footer .quote{color:var(--seafoam)}footer .fine{font-size:.82rem}
 .small{font-size:.85rem;color:var(--stone)}
-@media(max-width:720px){.hero-home{min-height:70vh}.hdr{height:auto;padding:10px 20px;flex-wrap:wrap}.hdr img{height:24px}nav{gap:12px;font-size:.82rem;flex-wrap:wrap}.hero{padding:60px 0 64px}.rings{display:none}dl.facts{grid-template-columns:1fr}}
+@view-transition{navigation:auto}
+@media(max-width:720px){.hero-home{min-height:70vh;min-height:70svh}.hdr{height:auto;padding:8px 20px 0;flex-wrap:wrap;gap:0 16px}.hdr img{height:24px}nav{width:100%;justify-content:space-between;gap:0;font-size:.82rem}nav a{padding:0}.hero{padding:60px 0 64px}.split{grid-template-columns:minmax(0,1fr)}dl.facts{grid-template-columns:minmax(0,1fr);gap:2px 0}dl.facts dd{margin-bottom:10px}
+table,thead,tbody,tr,th,td{display:block}thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}tbody tr{background:var(--white);border-left:3px solid var(--teal);padding:14px 16px;margin-bottom:16px}tbody th,tbody td{border:0;padding:6px 0}td[data-label]::before{content:attr(data-label);display:block;font-size:.74rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--stone)}}
+@media(prefers-reduced-motion:reduce){.card{transition:none}.card:hover{transform:none}::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}
 """
 
 RINGS = '<div class="ripples" aria-hidden="true"><div class="ripple"></div><div class="ripple"></div><div class="ripple"></div><div class="ripple"></div></div>'
 MARK = '<svg class="hero-mark" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42" fill="none" stroke="#FAFAF8" stroke-width="8"/><line x1="16.534" y1="68" x2="83.466" y2="68" stroke="#FAFAF8" stroke-width="8"/><circle cx="50" cy="50" r="5" fill="#FAFAF8"/></svg>'
 
+CSP = "default-src 'none'; style-src 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; script-src 'inline-speculation-rules'; manifest-src 'self'; base-uri 'self'; form-action 'none'"
+SPEC = '{"prefetch":[{"where":{"and":[{"href_matches":"/*"},{"not":{"selector_matches":"[rel~=nofollow]"}}]},"eagerness":"moderate"}]}'
+FONTS = " ".join(open(os.path.join(ROOT,"assets","fonts","fonts.css"),encoding="utf-8").read().split())
+
 NAV = [("Products","/products/"),("Declarations","/doc/"),("Company","/company/"),("Contact","/contact/")]
 
 def page(path, title, body, desc="", active=""):
     depth = path.count("/")
-    nav = "".join(f'<a href="{h}"{" class=on" if n==active else ""}>{n}</a>' for n,h in NAV)
-    canonical = BASE + ("/" if path=="index.html" else "/"+os.path.dirname(path)+"/")
+    here = "/" if path=="index.html" else "/"+os.path.dirname(path)+"/"
+    nav = "".join(f'<a href="{h}"' + (' aria-current="page"' if h==here else ' aria-current="true"' if n==active else "") + f'>{n}</a>' for n,h in NAV)
+    canonical = BASE + here
+    og = f'<meta property="og:type" content="website"><meta property="og:site_name" content="Galene"><meta property="og:title" content="{html.escape(title)}"><meta property="og:description" content="{html.escape(desc)}"><meta property="og:url" content="{canonical}"><meta property="og:image" content="{BASE}/assets/img/icon-512.png"><meta name="twitter:card" content="summary">' if path!="404.html" else '<meta name="robots" content="noindex">'
     doc = f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{html.escape(title)}</title><meta name="description" content="{html.escape(desc)}"><link rel="canonical" href="{canonical}">
 <link rel="icon" href="/assets/img/favicon.ico" sizes="32x32"><link rel="icon" href="/assets/img/favicon-32.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/assets/img/icon-180.png">
-<link rel="stylesheet" href="/assets/fonts/fonts.css">
-<style>{CSS}</style></head><body>
-<header><div class="wrap hdr"><a href="/"><img src="/assets/img/galene-lockup-horizontal-tide.svg" alt="Galene"></a><nav>{nav}</nav></div></header>
+<meta http-equiv="Content-Security-Policy" content="{CSP}"><meta name="referrer" content="strict-origin-when-cross-origin"><meta name="theme-color" content="#F0EBE3"><meta name="color-scheme" content="light">{og}
+<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/DMSans-normal-400-latin.woff2" crossorigin><link rel="preload" as="font" type="font/woff2" href="/assets/fonts/Cinzel-normal-400-latin.woff2" crossorigin>
+<style>{FONTS}{CSS}</style>
+<script type="speculationrules">{SPEC}</script></head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header><div class="wrap hdr"><a href="/"><img src="/assets/img/galene-lockup-horizontal-tide.svg" alt="Galene home" width="277" height="34"></a><nav aria-label="Main">{nav}</nav></div></header>
+<main id="main">
 {body}
-<footer><div class="wrap"><img src="/assets/img/galene-lockup-horizontal-linen.svg" alt="Galene"><div class="cols">
+</main>
+<footer><div class="wrap"><img src="/assets/img/galene-lockup-horizontal-linen.svg" alt="Galene" width="244" height="30" loading="lazy"><div class="cols">
 <div><strong>{COMPANY['legal']}</strong>, trading as Galene<br>{COMPANY['addr']}<br>CRO {COMPANY['cro']} · VAT {COMPANY['vat']}</div>
 <div><a href="mailto:{COMPANY['email']}">{COMPANY['email']}</a><br>{COMPANY['phone']}</div>
 <div><a href="/doc/">Declarations of conformity</a><br><a href="/company/">Company information</a><br><a href="/privacy/">Privacy</a></div>
-</div><p style="margin-top:28px;opacity:.85">Calm at Work · Ireland<br><span class="quote" style="color:var(--seafoam)">Γαλήνη — the nereid who stilled the seas.</span></p><p style="opacity:.6">© {YEAR} {COMPANY['legal']}, trading as Galene. Built for the way your brain works.</p></div></footer>
+</div><p class="tag">Calm at Work · Ireland<br><span class="quote"><span lang="el">Γαλήνη</span> — the nereid who stilled the seas.</span></p><p class="fine">© {YEAR} {COMPANY['legal']}, trading as Galene. Built for the way your brain works.</p></div></footer>
 </body></html>"""
     full = os.path.join(OUT, path); os.makedirs(os.path.dirname(full), exist_ok=True)
     open(full,"w",encoding="utf-8").write(doc)
@@ -140,20 +160,23 @@ def page(path, title, body, desc="", active=""):
 def hero(eyebrow, h1, p, ctas=""):
     return f'<div class="hero">{RINGS}<div class="wrap"><div class="eyebrow">{eyebrow}</div><h1>{h1}</h1><p>{p}</p>{ctas}</div></div>'
 
-def product_card(p):
-    img = f'<img class="ph-img" src="/assets/img/products/{p["image"]}-card.jpg" alt="{html.escape(p["name"])}" loading="lazy" width="960" height="720">' if p.get("image") else '<div class="ph">Photo to follow</div>'
-    return f'<div class="card">{img}<h3>{p["name"]}</h3><div class="sub">{p["short"]}</div><p>{p["one"]}</p><a class="more" href="/products/{p["slug"]}/">Details →</a></div>'
+def product_card(p, tag="h3"):
+    b = f'/assets/img/products/{p.get("image")}-card'
+    img = f'<picture><source type="image/webp" srcset="{b}-half.webp 480w, {b}.webp 960w" sizes="(max-width:720px) 90vw, 330px"><img class="ph-img" src="{b}.jpg" alt="" loading="lazy" decoding="async" width="960" height="720"></picture>' if p.get("image") else '<div class="ph">Photo to follow</div>'
+    cls = ' class="h3"' if tag!="h3" else ""
+    return f'<article class="card">{img}<{tag}{cls}>{p["name"]}</{tag}><div class="sub">{p["short"]}</div><p>{p["one"]}</p><a class="more" href="/products/{p["slug"]}/">Details<span class="vh">: {p["name"]}</span>&nbsp;<span aria-hidden="true">→</span></a></article>'
 
 def product_figure(p):
-    if not p.get("image"): return '<div class="ph" style="aspect-ratio:1">Photo to follow</div>'
+    if not p.get("image"): return '<div class="ph ph-sq">Photo to follow</div>'
     cap = f'<figcaption class="small">{html.escape(p["caption"])}</figcaption>' if p.get("caption") else ''
-    return f'<figure class="pfig"><img src="/assets/img/products/{p["image"]}.jpg" alt="{html.escape(p["name"])}" width="1200" height="1200">{cap}</figure>'
+    b = f'/assets/img/products/{p["image"]}'
+    return f'<figure class="pfig"><picture><source type="image/webp" srcset="{b}-half.webp 600w, {b}.webp 1200w" sizes="(max-width:720px) 90vw, 500px"><img src="{b}.jpg" alt="{html.escape(p["name"])}" width="1200" height="1200" fetchpriority="high"></picture>{cap}</figure>'
 
 def buy_button(p):
     if p.get("asin"):
         return f'<a class="btn btn-sea" href="https://www.amazon.de/dp/{p["asin"]}" rel="noopener">Buy on Amazon.de</a>'
-    if p["slug"]=="visual-timer": return '<span class="btn btn-ghost" aria-disabled="true">Planned for early 2027 · not yet on sale</span>'
-    return '<a class="btn btn-ghost" href="#" aria-disabled="true" title="Available on Amazon.de from January 2027">Buy on Amazon.de · from January 2027</a>'
+    if p["slug"]=="visual-timer": return '<span class="btn btn-soon">Planned for early 2027 · not yet on sale</span>'
+    return '<span class="btn btn-soon">On Amazon.de from January 2027</span>'
 
 def build():
     if os.path.isdir(OUT): shutil.rmtree(OUT)
@@ -162,38 +185,39 @@ def build():
     open(os.path.join(OUT,".nojekyll"),"w").write("")
     # home
     cards = "".join(product_card(p) for p in PRODUCTS)
-    body = f'<div class="hero hero-home">{RINGS}<div class="wrap">{MARK}<div class="eyebrow">Named for the goddess of calm seas</div><h1 class="hero-title">Galene</h1><p class="hero-sub">Built for the way your brain works — wherever you work.</p><p><a class="btn btn-sea" href="/products/">See the products</a> &nbsp; <a class="btn btn-ghost" href="/company/">About the company</a></p></div></div>'
+    body = f'<div class="hero hero-home">{RINGS}<div class="wrap">{MARK}<div class="eyebrow">Named for the goddess of calm seas</div><h1 class="hero-title">Galene</h1><p class="hero-sub">Built for the way your brain works — wherever you work.</p><p class="cta"><a class="btn btn-sea" href="/products/">See the products</a><a class="btn btn-ghost" href="/company/">About the company</a></p></div></div>'
     body += '<section class="alt"><div class="wrap"><p style="max-width:44rem;font-size:1.1rem">Workplace tools for neurodivergent professionals: noise, glare, restlessness and time, dealt with quietly at the desk. Launching on Amazon.de in January 2027.</p></div></section>'
     body += f'<section><div class="wrap"><h2>The products</h2><p style="max-width:44rem">Five things chosen for one reason each. Nothing medical, nothing that looks out of place on a desk.</p><div class="grid">{cards}</div></div></section>'
     body += '<section class="alt"><div class="wrap"><h2>Why these five</h2><p style="max-width:44rem">Open-plan noise, screen glare, restlessness and time-blindness are four of the most common difficulties neurodivergent adults describe at work. Each product answers one of them with an ordinary object, chosen for its certification and build rather than for claims. We say what a product does and what it is tested to, and no more.</p></div></section>'
     page("index.html","Galene — built for the way your brain works", body, "Workplace tools for neurodivergent professionals. Ear inserts, tinted focus glasses, weighted lap blanket, screen light bar and visual timer. Launching on Amazon.de January 2027.")
     # products index
     body = hero("Products","Five tools, one job each.","Available on Amazon.de from January 2027. Each page lists what the product is, what it is tested to, and the safety information that goes with it.")
-    body += f'<section><div class="wrap"><div class="grid">{cards}</div></div></section>'
+    cards2 = "".join(product_card(p, "h2") for p in PRODUCTS)
+    body += f'<section><div class="wrap"><div class="grid">{cards2}</div></div></section>'
     page("products/index.html","Products — Galene", body, "Galene products: ear inserts, tinted focus glasses, weighted lap blanket, screen light bar, visual timer.", "Products")
     for p in PRODUCTS:
         facts = "".join(f"<dt>{k}</dt><dd>{html.escape(v)}</dd>" for k,v in p["facts"])
         body = hero(p["short"], p["name"], p["one"], buy_button(p))
-        body += f'<section><div class="wrap"><div class="grid" style="grid-template-columns:1fr 1fr;align-items:start"><div>{product_figure(p)}</div><div><p>{p["intro"]}</p><h3>Details</h3><dl class="facts">{facts}</dl></div></div>'
+        body += f'<section><div class="wrap"><div class="split"><div>{product_figure(p)}</div><div><p>{p["intro"]}</p><h2 class="h3">Details</h2><dl class="facts">{facts}</dl></div></div>'
         body += f'<div class="note"><strong>Safety information.</strong> {p["safety"]}</div><p class="small">Declaration of conformity and test documentation: <a href="/doc/">galene.ie/doc</a>. Manufacturer and EU responsible person details: <a href="/company/">company information</a>.</p></div></section>'
         page(f"products/{p['slug']}/index.html", f"{p['name']} — Galene", body, p["one"], "Products")
     # doc
-    rows = "".join(f"<tr><td><strong>{d['product']}</strong></td><td>{d['reg']}</td><td>{d['std']}</td><td>{d['nb']}</td><td>{d['status']}</td></tr>" for d in DOCS)
+    rows = "".join(f"<tr role=row><th scope=row role=rowheader>{d['product']}</th><td role=cell data-label='EU legislation'>{d['reg']}</td><td role=cell data-label='Standards and certificates'>{d['std']}</td><td role=cell data-label='Notified body'>{d['nb']}</td><td role=cell data-label='Declaration'>{d['status']}</td></tr>" for d in DOCS)
     body = hero("galene.ie/doc","Declarations of conformity","This is the address printed on Galene packaging. Each product's EU declaration of conformity, the regulations it is declared against and the standards applied are listed here, with a PDF of the signed declaration once the product is on sale.")
-    body += f'<section><div class="wrap"><table><thead><tr><th>Product</th><th>EU legislation</th><th>Standards and certificates</th><th>Notified body</th><th>Declaration</th></tr></thead><tbody>{rows}</tbody></table>'
+    body += f'<section><div class="wrap"><table role="table" aria-label="Declarations of conformity by product"><thead role="rowgroup"><tr role="row"><th role="columnheader" scope="col">Product</th><th role="columnheader" scope="col">EU legislation</th><th role="columnheader" scope="col">Standards and certificates</th><th role="columnheader" scope="col">Notified body</th><th role="columnheader" scope="col">Declaration</th></tr></thead><tbody role="rowgroup">{rows}</tbody></table>'
     body += f'<div class="note"><strong>Manufacturer and EU responsible person.</strong> {COMPANY["legal"]}, trading as Galene, {COMPANY["addr"]}. {COMPANY["email"]} · {COMPANY["phone"]}. For the ear inserts, Colgalene Solutions Ltd is the manufacturer placing the product on the market under its own name. For the other products, the manufacturer is named on the product or its packaging and Colgalene Solutions Ltd is the importer and EU responsible person under Regulation (EU) 2019/1020.</div>'
     body += '<p class="small">To request a copy of a declaration or a test report before it is published here, email the address above with the product name and model.</p></div></section>'
     page("doc/index.html","Declarations of conformity — Galene", body, "EU declarations of conformity for Galene products.", "Declarations")
     # company
     c = COMPANY
     body = hero("Company information","Colgalene Solutions Ltd, trading as Galene","A private company limited by shares, registered in Ireland. Owner and director: Colin Browne.")
-    body += f'''<section><div class="wrap"><div class="grid" style="grid-template-columns:1fr 1fr;align-items:start"><div><h3>Registered details</h3><dl class="facts">
+    body += f'''<section><div class="wrap"><div class="split"><div><h2 class="h3">Registered details</h2><dl class="facts">
 <dt>Legal name</dt><dd>{c["legal"]}</dd><dt>Trading as</dt><dd>Galene (registered business name {c["rbn"]})</dd><dt>Company number</dt><dd>CRO {c["cro"]}, Companies Registration Office, Ireland</dd>
 <dt>Registered office</dt><dd>{c["addr"]}</dd><dt>VAT number</dt><dd>{c["vat"]}</dd><dt>EORI</dt><dd>{c["eori"]}</dd><dt>Director</dt><dd>{c["director"]}</dd>
 <dt>Email</dt><dd><a href="mailto:{c["email"]}">{c["email"]}</a></dd><dt>Telephone</dt><dd>{c["phone"]}</dd></dl></div>
-<div><h3>Angaben gemäß § 5 DDG</h3><p lang="de">{c["legal"]} (Handelsname Galene)<br>{c["addr"]}<br>Vertreten durch den Director: {c["director"]}<br>E-Mail: {c["email"]} · Telefon: {c["phone"]}<br>Registergericht: Companies Registration Office (CRO), Irland, Nr. {c["cro"]}<br>USt-IdNr. (Irland): {c["vat"]}<br>Deutsche USt-IdNr.: wird nach Erteilung ergänzt<br>WEEE-Reg.-Nr. (Stiftung EAR): wird nach Erteilung ergänzt<br>Verpackungsregister LUCID: wird nach Erteilung ergänzt</p>
+<div><h2 class="h3" lang="de">Angaben gemäß § 5 DDG</h2><p lang="de">{c["legal"]} (Handelsname Galene)<br>{c["addr"]}<br>Vertreten durch den Director: {c["director"]}<br>E-Mail: {c["email"]} · Telefon: {c["phone"]}<br>Registergericht: Companies Registration Office (CRO), Irland, Nr. {c["cro"]}<br>USt-IdNr. (Irland): {c["vat"]}<br>Deutsche USt-IdNr.: wird nach Erteilung ergänzt<br>WEEE-Reg.-Nr. (Stiftung EAR): wird nach Erteilung ergänzt<br>Verpackungsregister LUCID: wird nach Erteilung ergänzt</p>
 <p lang="de" class="small">Plattform der EU-Kommission zur Online-Streitbeilegung: <a href="https://ec.europa.eu/consumers/odr">ec.europa.eu/consumers/odr</a>. Wir sind nicht verpflichtet und nicht bereit, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p></div></div>
-<h3 style="margin-top:40px">Roles under EU product law</h3><p style="max-width:48rem">Colgalene Solutions Ltd is the EU responsible person (Regulation (EU) 2019/1020, Article 4) for every Galene product, and the manufacturer of the Galene ear inserts, which are placed on the market under our own name. Declarations of conformity are at <a href="/doc/">galene.ie/doc</a>.</p></div></section>'''
+<h2 class="h3" style="margin-top:40px">Roles under EU product law</h2><p style="max-width:48rem">Colgalene Solutions Ltd is the EU responsible person (Regulation (EU) 2019/1020, Article 4) for every Galene product, and the manufacturer of the Galene ear inserts, which are placed on the market under our own name. Declarations of conformity are at <a href="/doc/">galene.ie/doc</a>.</p></div></section>'''
     page("company/index.html","Company information — Galene", body, "Colgalene Solutions Ltd, trading as Galene: registered details, Impressum, EU responsible person.", "Company")
     # privacy
     body = hero("Privacy","Privacy notice","Short, because this site collects almost nothing.")
@@ -211,6 +235,9 @@ def build():
     page("contact/index.html","Contact — Galene", body, "Contact Galene / Colgalene Solutions Ltd.", "Contact")
     # 404
     page("404.html","Page not found — Galene", hero("404","Page not found","Try the <a href='/' style='color:#F0EBE3'>home page</a> or <a href='/doc/' style='color:#F0EBE3'>declarations</a>."), "")
+    urls = ["/"] + [h for _,h in NAV] + [f"/products/{p['slug']}/" for p in PRODUCTS] + ["/privacy/"]
+    open(os.path.join(OUT,"sitemap.xml"),"w").write('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + "".join(f"<url><loc>{BASE}{u}</loc></url>" for u in urls) + "</urlset>\n")
+    open(os.path.join(OUT,"robots.txt"),"w").write(f"User-agent: *\nAllow: /\nSitemap: {BASE}/sitemap.xml\n")
     print("built", sum(len(f) for _,_,f in os.walk(OUT)), "files")
 
 if __name__ == "__main__":
