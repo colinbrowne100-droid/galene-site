@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Static site generator for galene.ie. Run: python3 src/build.py  -> writes to ./site"""
-import os, shutil, html, datetime, urllib.parse
+import os, shutil, html, datetime, urllib.parse, json
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "site")
 BASE = "https://galene.ie"
@@ -134,19 +134,49 @@ FONTS = " ".join(open(os.path.join(ROOT,"assets","fonts","fonts.css"),encoding="
 
 NAV = [("Products","/products/"),("Employers","/employers/"),("Declarations","/doc/"),("Company","/company/"),("Contact","/contact/")]
 
-def page(path, title, body, desc="", active=""):
+LINKEDIN = "https://www.linkedin.com/company/galene-ie"
+SUMMARY = "Workplace tools for neurodivergent professionals: noise, glare, restlessness and time, dealt with quietly at the desk."
+
+def ld_tag(*objs):
+    """JSON-LD data blocks (schema.org). Data only: not executed, so the CSP does not apply."""
+    return "".join('<script type="application/ld+json">' + json.dumps(o, ensure_ascii=False, separators=(",",":")).replace("</","<\\/") + "</script>" for o in objs)
+
+def org_ld():
+    c = COMPANY
+    return {"@context":"https://schema.org","@type":"Organization","@id":BASE+"/#org","name":"Galene","legalName":c["legal"],"url":BASE+"/",
+      "logo":BASE+"/assets/img/icon-512.png","description":SUMMARY,"email":c["email"],"telephone":c["phone"],"vatID":c["vat"],
+      "identifier":{"@type":"PropertyValue","propertyID":"CRO company number (Ireland)","value":c["cro"]},
+      "founder":{"@type":"Person","name":c["director"]},
+      "address":{"@type":"PostalAddress","streetAddress":"9 Slí Aonghusa, Áras Na Rí","addressLocality":"Cashel","addressRegion":"Co. Tipperary","postalCode":"E25 TF85","addressCountry":"IE"},
+      "sameAs":[LINKEDIN]}
+
+def product_ld(p):
+    url = f"{BASE}/products/{p['slug']}/"
+    props = [{"@type":"PropertyValue","name":k,"value":v} for k,v in p["facts"] if "[TO CONFIRM]" not in v]
+    o = {"@context":"https://schema.org","@type":"Product","@id":url+"#product","name":p["name"],"description":p["one"]+" "+p["intro"],"url":url,
+      "brand":{"@type":"Brand","name":"Galene"},"category":"Workplace tools for neurodivergent adults","additionalProperty":props}
+    model = dict(p["facts"]).get("Model")
+    if model: o["model"] = model
+    if p.get("image"): o["image"] = f"{BASE}/assets/img/products/{p['image']}.jpg"
+    crumbs = {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+      {"@type":"ListItem","position":1,"name":"Galene","item":BASE+"/"},{"@type":"ListItem","position":2,"name":"Products","item":BASE+"/products/"},
+      {"@type":"ListItem","position":3,"name":p["name"],"item":url}]}
+    return ld_tag(o, crumbs)
+
+def page(path, title, body, desc="", active="", ld=""):
     depth = path.count("/")
     here = "/" if path=="index.html" else "/"+os.path.dirname(path)+"/"
     nav = "".join(f'<a href="{h}"' + (' aria-current="page"' if h==here else ' aria-current="true"' if n==active else "") + f'>{n}</a>' for n,h in NAV)
     canonical = BASE + here
+    canon_tag = f'<link rel="canonical" href="{canonical}">' if path!="404.html" else ""
     og = f'<meta property="og:type" content="website"><meta property="og:site_name" content="Galene"><meta property="og:title" content="{html.escape(title)}"><meta property="og:description" content="{html.escape(desc)}"><meta property="og:url" content="{canonical}"><meta property="og:image" content="{BASE}/assets/img/icon-512.png"><meta name="twitter:card" content="summary">' if path!="404.html" else '<meta name="robots" content="noindex">'
     doc = f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{html.escape(title)}</title><meta name="description" content="{html.escape(desc)}"><link rel="canonical" href="{canonical}">
+<title>{html.escape(title)}</title><meta name="description" content="{html.escape(desc)}">{canon_tag}
 <link rel="icon" href="/assets/img/favicon.ico" sizes="32x32"><link rel="icon" href="/assets/img/favicon-32.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/assets/img/icon-180.png">
 <meta http-equiv="Content-Security-Policy" content="{CSP}"><meta name="referrer" content="strict-origin-when-cross-origin"><meta name="theme-color" content="#F0EBE3"><meta name="color-scheme" content="light">{og}
 <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/DMSans-normal-400-latin.woff2" crossorigin><link rel="preload" as="font" type="font/woff2" href="/assets/fonts/Cinzel-normal-400-latin.woff2" crossorigin>
 <style>{FONTS}{CSS}</style>
-<script type="speculationrules">{SPEC}</script></head><body>
+<script type="speculationrules">{SPEC}</script>{ld}</head><body>
 <a class="skip" href="#main">Skip to content</a>
 <header><div class="wrap hdr"><a href="/"><img src="/assets/img/galene-lockup-horizontal-tide.svg" alt="Galene home" width="277" height="34"></a><nav aria-label="Main">{nav}</nav></div></header>
 <main id="main">
@@ -194,7 +224,8 @@ def build():
     body += f'<section><div class="wrap"><h2>The products</h2><p style="max-width:44rem">Five things chosen for one reason each. Nothing medical, nothing that looks out of place on a desk.</p><div class="grid">{cards}</div></div></section>'
     body += '<section class="band"><div class="wrap"><h2>For employers</h2><p>A reasonable adjustment is often a small one: less noise, softer light, a way to see time passing. Galene supplies the tools with the compliance paperwork your health and safety or procurement team needs to approve them.</p><p class="cta"><a class="btn btn-sea" href="/employers/">How it works for employers</a></p></div></section>'
     body += '<section class="alt"><div class="wrap"><h2>Why these five</h2><p style="max-width:44rem">Open-plan noise, screen glare, restlessness and time-blindness are four of the most common difficulties neurodivergent adults describe at work. Each product answers one of them with an ordinary object, chosen for its certification and build rather than for claims. We say what a product does and what it is tested to, and no more.</p></div></section>'
-    page("index.html","Galene — built for the way your brain works", body, "Workplace tools for neurodivergent professionals. Ear inserts, tinted focus glasses, weighted lap blanket, screen light bar and visual timer. Launching on Amazon.de January 2027.")
+    page("index.html","Galene — built for the way your brain works", body, "Workplace tools for neurodivergent professionals. Ear inserts, tinted focus glasses, weighted lap blanket, screen light bar and visual timer. Launching on Amazon.de January 2027.",
+         ld=ld_tag(org_ld(), {"@context":"https://schema.org","@type":"WebSite","name":"Galene","url":BASE+"/","publisher":{"@id":BASE+"/#org"},"inLanguage":"en-IE"}))
     # products index
     body = hero("Products","Five tools, one job each.","Available on Amazon.de from January 2027. Each page lists what the product is, what it is tested to, and the safety information that goes with it.")
     cards2 = "".join(product_card(p, "h2") for p in PRODUCTS)
@@ -205,7 +236,7 @@ def build():
         body = hero(p["short"], p["name"], p["one"], buy_button(p))
         body += f'<section><div class="wrap"><div class="split"><div>{product_figure(p)}</div><div><p>{p["intro"]}</p><h2 class="h3">Details</h2><dl class="facts">{facts}</dl></div></div>'
         body += f'<div class="note"><strong>Safety information.</strong> {p["safety"]}</div><p class="small">Declaration of conformity and test documentation: <a href="/doc/">galene.ie/doc</a>. Manufacturer and EU responsible person details: <a href="/company/">company information</a>.</p></div></section>'
-        page(f"products/{p['slug']}/index.html", f"{p['name']} — Galene", body, p["one"], "Products")
+        page(f"products/{p['slug']}/index.html", f"{p['name']} — Galene", body, p["one"], "Products", ld=product_ld(p))
     # employers
     def mail(subject, lines):
         return "mailto:" + COMPANY["email"] + "?subject=" + urllib.parse.quote(subject) + "&body=" + urllib.parse.quote("\n".join(lines) + "\n")
@@ -235,10 +266,25 @@ def build():
 <li><strong>Ongoing supply.</strong> Employees or managers request what they need and you receive one monthly invoice. Volume prices apply from 10 units.</li>
 </ol><p class="lead" style="margin-top:36px"><strong>Prices.</strong> Pilot and volume prices are quoted on request, excluding VAT, on one invoice.</p></div></section>"""
     body += """<section><div class="wrap"><div class="note"><strong>What we do not claim.</strong> These are everyday desk tools. They are not medical devices, and we make no claim that they treat or improve any condition. The ear inserts are certified hearing protection and the stated attenuation is the certified figure. Where a product has limits, for example that the glasses are not for driving, we say so on the product page and on the pack.</div></div></section>"""
+    FAQ = [
+     ("What does Galene supply to employers?", "Five desk tools, one job each: noise-reducing ear inserts, tinted focus glasses, a screen light bar, a weighted lap blanket and a visual timer. They deal with open-plan noise, glare, restlessness and losing track of time, and are supplied with the compliance paperwork an employer needs to approve them."),
+     ("Who are the products for?", "Adults at work. They were chosen with neurodivergent employees in mind, and any employee who finds noise, lighting or time hard to manage at a desk can use them."),
+     ("Are these medical devices?", "No. They are everyday desk tools. They are not medical devices and we make no claim that they treat or improve any condition. The ear inserts are certified hearing protection, and the attenuation we state is the certified figure."),
+     ("Can they be used as a reasonable accommodation?", "Employers in Ireland and across the EU have a duty to provide reasonable accommodation, and most requests are small: less noise, softer light, a way to see time passing. These tools are meant for exactly that. Whether a particular adjustment is right for an employee is for the employer and the employee to decide."),
+     ("What paperwork comes with the products?", "Each product is supplied with its declaration of conformity and a one-page specification for your health and safety or procurement file. The regulations and standards for every product are listed publicly at galene.ie/doc."),
+     ("How much does it cost?", "Pilot and volume prices are quoted on request, excluding VAT, on one invoice. Volume prices apply from 10 units. Email info@galene.ie with your employer name and approximate headcount for a quote."),
+     ("Can we try the products before ordering?", "Yes. We send one sample kit of the range to a named HR, occupational health or facilities contact to assess. Kits ship from March 2027, when our Irish stock arrives, and can be reserved now."),
+     ("How does a pilot work?", "A pilot is 10 to 25 units in any mix, for one site, team or employee network, at a fixed price on one invoice. After six weeks we send a short anonymous survey and share the results with you."),
+     ("When are the products available?", "The range launches on Amazon.de in January 2027. Employer sample kits ship from March 2027. The visual timer is planned for early 2027 and is not yet on sale."),
+     ("Who is behind Galene?", f"Galene is the trading name of {COMPANY['legal']}, an Irish company registered in Cashel, Co. Tipperary (CRO {COMPANY['cro']}, VAT {COMPANY['vat']}). It invoices in euro with Irish VAT and is the EU responsible person for every Galene product."),
+    ]
+    faq_html = "".join(f"<div><h3>{html.escape(q)}</h3><p>{html.escape(a)}</p></div>" for q,a in FAQ)
+    body += f'<section class="alt"><div class="wrap"><h2>Questions employers ask</h2><div class="pts">{faq_html}</div></div></section>'
+    faq_ld = {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in FAQ]}
     body += f"""<section class="band"><div class="wrap"><h2>Start with an email</h2><p>Tell us your name, your employer, your role and roughly how many people you employ, and whether you would like a sample kit or a pilot quote. We reply within two working days.</p>
 <p class="cta"><a class="btn btn-sea" href="{m_kit}">Request a sample kit</a><a class="btn btn-ghost" href="{m_pilot}">Ask about a pilot</a></p>
 <p class="small">Or write to <a href="mailto:{COMPANY['email']}">{COMPANY['email']}</a>. We use your details only to reply to your request. See our <a href="/privacy/">privacy notice</a>.</p></div></section>"""
-    page("employers/index.html","For employers — Galene", body, "Workplace adjustment tools for employers: noise, glare, restlessness and time. Sample kits, pilots and one invoice from an Irish supplier.", "Employers")
+    page("employers/index.html","For employers — Galene", body, "Workplace adjustment tools for employers: noise, glare, restlessness and time. Sample kits, pilots and one invoice from an Irish supplier.", "Employers", ld=ld_tag(faq_ld))
     # doc
     rows = "".join(f"<tr role=row><th scope=row role=rowheader>{d['product']}</th><td role=cell data-label='EU legislation'>{d['reg']}</td><td role=cell data-label='Standards and certificates'>{d['std']}</td><td role=cell data-label='Notified body'>{d['nb']}</td><td role=cell data-label='Declaration'>{d['status']}</td></tr>" for d in DOCS)
     body = hero("galene.ie/doc","Declarations of conformity","This is the address printed on Galene packaging. Each product's EU declaration of conformity, the regulations it is declared against and the standards applied are listed here, with a PDF of the signed declaration once the product is on sale.")
@@ -256,7 +302,7 @@ def build():
 <div><h2 class="h3" lang="de">Angaben gemäß § 5 DDG</h2><p lang="de">{c["legal"]} (Handelsname Galene)<br>{c["addr"]}<br>Vertreten durch den Director: {c["director"]}<br>E-Mail: {c["email"]} · Telefon: {c["phone"]}<br>Registergericht: Companies Registration Office (CRO), Irland, Nr. {c["cro"]}<br>USt-IdNr. (Irland): {c["vat"]}<br>Deutsche USt-IdNr.: wird nach Erteilung ergänzt<br>WEEE-Reg.-Nr. (Stiftung EAR): wird nach Erteilung ergänzt<br>Verpackungsregister LUCID: wird nach Erteilung ergänzt</p>
 <p lang="de" class="small">Plattform der EU-Kommission zur Online-Streitbeilegung: <a href="https://ec.europa.eu/consumers/odr">ec.europa.eu/consumers/odr</a>. Wir sind nicht verpflichtet und nicht bereit, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p></div></div>
 <h2 class="h3" style="margin-top:40px">Roles under EU product law</h2><p style="max-width:48rem">Colgalene Solutions Ltd is the EU responsible person (Regulation (EU) 2019/1020, Article 4) for every Galene product, and the manufacturer of the Galene ear inserts, which are placed on the market under our own name. Declarations of conformity are at <a href="/doc/">galene.ie/doc</a>.</p></div></section>'''
-    page("company/index.html","Company information — Galene", body, "Colgalene Solutions Ltd, trading as Galene: registered details, Impressum, EU responsible person.", "Company")
+    page("company/index.html","Company information — Galene", body, "Colgalene Solutions Ltd, trading as Galene: registered details, Impressum, EU responsible person.", "Company", ld=ld_tag(org_ld()))
     # privacy
     body = hero("Privacy","Privacy notice","Short, because this site collects almost nothing.")
     body += f'''<section><div class="wrap" style="max-width:48rem"><p><strong>Controller.</strong> {c["legal"]}, {c["addr"]}, {c["email"]}.</p>
@@ -276,6 +322,22 @@ def build():
     urls = ["/"] + [h for _,h in NAV] + [f"/products/{p['slug']}/" for p in PRODUCTS] + ["/privacy/"]
     open(os.path.join(OUT,"sitemap.xml"),"w").write('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + "".join(f"<url><loc>{BASE}{u}</loc></url>" for u in urls) + "</urlset>\n")
     open(os.path.join(OUT,"robots.txt"),"w").write(f"User-agent: *\nAllow: /\nSitemap: {BASE}/sitemap.xml\n")
+    c = COMPANY
+    L = ["# Galene", "", f"> {SUMMARY} Galene is the trading name of {c['legal']}, an Irish company in Cashel, Co. Tipperary. The range launches on Amazon.de in January 2027; employer sample kits ship from March 2027.", "",
+      "Galene sells five everyday desk tools for adults. They are not medical devices and Galene makes no claim that they treat or improve any condition. Prices are not yet published: employer pilot and volume prices are quoted on request.", "",
+      "## Products", ""]
+    for p in PRODUCTS:
+        L.append(f"- [{p['name']}]({BASE}/products/{p['slug']}/): {p['one']}")
+        L += [f"  - {k}: {v}" for k,v in p["facts"] if "[TO CONFIRM]" not in v]
+        L.append(f"  - Safety: {p['safety']}")
+    L += ["", "## For employers", "", f"- [For employers]({BASE}/employers/): sample kits, pilots of 10 to 25 units, ongoing supply on one monthly invoice, and the compliance paperwork for each product."]
+    L += [f"- {q} {a}" for q,a in FAQ]
+    L += ["", "## Compliance and company", "",
+      f"- [Declarations of conformity]({BASE}/doc/): EU legislation, standards, certificates and notified bodies for each product.",
+      f"- [Company information]({BASE}/company/): {c['legal']}, trading as Galene. CRO {c['cro']}, VAT {c['vat']}, EORI {c['eori']}. Registered office: {c['addr']}. Director: {c['director']}. EU responsible person for every Galene product.",
+      f"- [Contact]({BASE}/contact/): {c['email']}, {c['phone']}.",
+      f"- [Privacy]({BASE}/privacy/): static site, no cookies, no analytics.", ""]
+    open(os.path.join(OUT,"llms.txt"),"w",encoding="utf-8").write("\n".join(L))
     print("built", sum(len(f) for _,_,f in os.walk(OUT)), "files")
 
 if __name__ == "__main__":
