@@ -1,0 +1,64 @@
+# Galene
+
+> Workplace tools for neurodivergent professionals: noise, glare, restlessness and time, dealt with quietly at the desk. Galene is the trading name of Colgalene Solutions Ltd, an Irish company in Cashel, Co. Tipperary. The range launches on Amazon.de in January 2027; employer sample kits ship from March 2027.
+
+Galene sells five everyday desk tools for adults. They are not medical devices and Galene makes no claim that they treat or improve any condition. Prices are not yet published: employer pilot and volume prices are quoted on request.
+
+## Products
+
+- [Noise-reducing ear inserts](https://galene.ie/products/ear-inserts/): Take the edge off an open-plan office. Certified SNR 21 dB, reusable, in a case that fits a pocket.
+  - Model: EN-Quietprop-S8 (Series 8)
+  - Attenuation: SNR 21 dB · H 21 · M 19 · L 17 (EN 352-2:2020)
+  - Ear tips: XS 8 mm · S 10 mm · M 11 mm · L 12 mm, silicone, washable
+  - Colours: Black. Midnight blue will follow once it is added to the certificate
+  - In the box: 1 pair of inserts, ear tips in four sizes, carry case, leaflet (EN/DE/ES)
+  - Compliance: PPE Category III, Regulation (EU) 2016/425. EU type-examination: Aliénor Certification (NB 2754), certificate 2754/6256/159/06/25/0195. Production control: Certicore (NB 3232)
+  - Safety: Hearing protectors reduce noise; they do not remove it. Fit as shown in the leaflet and wear them for the whole time you are in noise. They can make alarms and speech harder to hear. Small parts: for adults only, keep away from children. Not for sale to or use by children.
+- [Tinted focus glasses](https://galene.ie/products/focus-glasses/): A light yellow or tan tint in an ordinary adult frame, to soften screen glare and bright overhead lighting.
+  - Frames: 28013 (black, grey) and G0601 (black)
+  - Lenses: CR-39 resin with anti-reflective coating. H7MX light yellow (Tv 93 %) or H4M2 tan (Tv 90 %), filter category 0
+  - Standard: EN ISO 12312-1:2022 (test report pending, December 2026)
+  - In the box: Glasses, cleaning cloth, sliding box
+  - Marking: Not suitable for driving
+  - Safety: The tint is visible: the lens is yellow or tan, not clear. Filter category 0. Not suitable for driving. These are not safety eyewear and give no impact protection.
+- [Weighted lap blanket](https://galene.ie/products/weighted-lap-blanket/): Steady, quiet weight for the desk or the sofa. Cotton outer, glass beads, removable cover. It reads as a knee throw, not a therapy aid.
+  - Sizes: Blanket 70 × 100 cm, 3 kg · Lap pad 48 × 56 cm, 2.3 kg
+  - Outer: Cotton, 5 × 5 cm square quilting, 7 layers, glass-bead fill (0.8–1 mm)
+  - Covers: Removable cotton covers in three colours (navy and two more, to be announced)
+  - Textile safety: OEKO-TEX STANDARD 100, certificate 2021OK2653 (manufacturer)
+  - Care: Cover: washable. Blanket: see care label
+  - Safety: For adults. Not for children, infants or anyone who cannot remove the blanket themselves. Not flame retardant: keep away from open flames and heaters.
+- [Screen light bar](https://galene.ie/products/screen-light-bar/): Even light on the desk in front of your monitor, with no glare on the screen and a soft glow behind it. USB powered, 3000–6000 K, no visible flicker.
+  - Model: FDGL01, 42 cm, aluminium and ABS
+  - Light: 3000–6000 K in four modes, stepless dimming, CRI 81, no visible flicker
+  - Power: USB, 5 V DC 1 A, 5 W. Protection class III. No batteries. Power adapter not included
+  - Energy label: Class G (EPREL 2533014, 5 kWh/1000 h)
+  - In the box: Light bar with monitor clip, USB cable, leaflet (EN/DE)
+  - Safety: Indoor, dry use only. LEDs are not replaceable. Do not dispose of with household waste: electrical equipment goes to a collection point (crossed-out wheelie bin).
+- [Visual timer](https://galene.ie/products/visual-timer/): A coloured disc that shrinks as the minutes pass. Silent mode for shared offices. No app, no screen, no notifications.
+  - Form: Square white body with a navy silicone sleeve
+  - Sound: Mute, low, high
+  - Power: 2 × AAA batteries, not included
+  - Status: Planned for early 2027
+  - Safety: Not a toy. Keep batteries away from children. Dispose of batteries and the timer at a collection point, not in household waste.
+
+## For employers
+
+- [For employers](https://galene.ie/employers/): sample kits, pilots of 10 to 25 units, ongoing supply on one monthly invoice, and the compliance paperwork for each product.
+- What does Galene supply to employers? Five desk tools, one job each: noise-reducing ear inserts, tinted focus glasses, a screen light bar, a weighted lap blanket and a visual timer. They deal with open-plan noise, glare, restlessness and losing track of time, and are supplied with the compliance paperwork an employer needs to approve them.
+- Who are the products for? Adults at work. They were chosen with neurodivergent employees in mind, and any employee who finds noise, lighting or time hard to manage at a desk can use them.
+- Are these medical devices? No. They are everyday desk tools. They are not medical devices and we make no claim that they treat or improve any condition. The ear inserts are certified hearing protection, and the attenuation we state is the certified figure.
+- Can they be used as a reasonable accommodation? Employers in Ireland and across the EU have a duty to provide reasonable accommodation, and most requests are small: less noise, softer light, a way to see time passing. These tools are meant for exactly that. Whether a particular adjustment is right for an employee is for the employer and the employee to decide.
+- What paperwork comes with the products? Each product is supplied with its declaration of conformity and a one-page specification for your health and safety or procurement file. The regulations and standards for every product are listed publicly at galene.ie/doc.
+- How much does it cost? Pilot and volume prices are quoted on request, excluding VAT, on one invoice. Volume prices apply from 10 units. Email info@galene.ie with your employer name and approximate headcount for a quote.
+- Can we try the products before ordering? Yes. We send one sample kit of the range to a named HR, occupational health or facilities contact to assess. Kits ship from March 2027, when our Irish stock arrives, and can be reserved now.
+- How does a pilot work? A pilot is 10 to 25 units in any mix, for one site, team or employee network, at a fixed price on one invoice. After six weeks we send a short anonymous survey and share the results with you.
+- When are the products available? The range launches on Amazon.de in January 2027. Employer sample kits ship from March 2027. The visual timer is planned for early 2027 and is not yet on sale.
+- Who is behind Galene? Galene is the trading name of Colgalene Solutions Ltd, an Irish company registered in Cashel, Co. Tipperary (CRO 819392, VAT IE4757715FH). It invoices in euro with Irish VAT and is the EU responsible person for every Galene product.
+
+## Compliance and company
+
+- [Declarations of conformity](https://galene.ie/doc/): EU legislation, standards, certificates and notified bodies for each product.
+- [Company information](https://galene.ie/company/): Colgalene Solutions Ltd, trading as Galene. CRO 819392, VAT IE4757715FH, EORI IE4757715FH. Registered office: 9 Slí Aonghusa, Áras Na Rí, Cashel, Co. Tipperary, E25 TF85, Ireland. Director: Colin Browne. EU responsible person for every Galene product.
+- [Contact](https://galene.ie/contact/): info@galene.ie, +353 89 213 2098.
+- [Privacy](https://galene.ie/privacy/): static site, no cookies, no analytics.
